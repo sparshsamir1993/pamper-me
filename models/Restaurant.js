@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-
+const ItemSchema = require("./RestaurantItems");
 const restaurantSchema = new Schema({
     name: String,
     address: String,
@@ -9,4 +9,4 @@ const restaurantSchema = new Schema({
 
 });
 
-mongoose.model("Restaurants",restaurantSchema);
+mongoose.model("restaurants",restaurantSchema);

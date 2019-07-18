@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchRestaurants, setRestaurant } from "../../../actions";
+import React, {Component} from 'react';
+import {connect} from "react-redux";
+import * as actions from "../../actions";
 import { Link } from "react-router-dom";
-
-class AdminRestaurantList extends Component {
+class RestaurantList extends Component {
     componentDidMount(){
-        this.props.fetchRestaurants();
+        this.props.fetchUserRestaurants();
+        // console.log(this.props);
     }
-
     renderList(){
         if(this.props.restaurants && this.props.restaurants.length > 0){
-            return this.props.restaurants.reverse().map( restaurant => {
+            return this.props.restaurants.map( restaurant => {
                 return(
                     
                     <div className="card seven wide column" key={restaurant._id}>
@@ -20,7 +19,7 @@ class AdminRestaurantList extends Component {
                             Phone Number : {restaurant.phoneNumber}
                         </div>
                         </div>
-                        <Link className="ui bottom attached button" to="/admin/restaurants/items" onClick={()=>this.props.setRestaurant(restaurant)}>
+                        <Link className="ui bottom attached button" to="/restaurants/items" onClick={()=>this.props.setRestaurant(restaurant)}>
                             <i className="add icon"></i>
                             Check Out
                         </Link>
@@ -43,17 +42,17 @@ class AdminRestaurantList extends Component {
                 <div className="ui cards grid">
                     {this.renderList()}
                 </div>
-
-                <Link to="/admin/restaurants/new" className="ui button primary">Create Restaurant</Link>
             </div>
 
         );
     }
 }
+
 function mapStateToProps(state){
-    // console.log(state);
+    console.log(state);
     return{
-        restaurants : state.restaurants
+        restaurants: state.restaurants
     }
 }
-export default connect(mapStateToProps,{fetchRestaurants, setRestaurant})(AdminRestaurantList);
+// const {fetchUserRestaurants} = actions;
+export default connect(mapStateToProps, actions)(RestaurantList);

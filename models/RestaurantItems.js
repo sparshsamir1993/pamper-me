@@ -8,4 +8,4 @@ const restaurantItemSchema = new Schema({
     type: String
 });
 
-mongoose.model("RestaurantItems",restaurantItemSchema);
+mongoose.model("restaurantitems",restaurantItemSchema);
