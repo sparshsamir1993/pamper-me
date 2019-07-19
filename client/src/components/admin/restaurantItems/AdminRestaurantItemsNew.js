@@ -1,11 +1,27 @@
 import React, {Component} from "react";
-
+import AdminRestaurantItemForm from "./AdminRestaurantItemForm";
+import { connect } from "react-redux";
+import * as actions from "../../../actions"
 class AdminRestaurantItemsNew  extends Component{
     render(){
-        console.log(this.props.location.state.restaurant)
+        console.log(this.props);
+        if(!this.props.selectedRestaurant.name){
+            this.props.history.goBack();
+        }
         return(
-            <div>New item form</div>
+            <div>
+                <AdminRestaurantItemForm onNewItemSubmit={()=>this.props.createNewRestaurantItem({newItem: this.props.newitem, selectedRestaurant: this.props.selectedRestaurant}, this.props.history)}/>
+            </div>
         );
     }
 }
-export default AdminRestaurantItemsNew;
+
+function mapStateToProps(state){
+    // console.log(state);
+    return{
+        newitem: state.form.adminRestaurantItemForm && state.form.adminRestaurantItemForm.values,
+        selectedRestaurant: state.selectedRestaurant
+    };
+}
+export default connect(mapStateToProps, actions)(AdminRestaurantItemsNew);
+
