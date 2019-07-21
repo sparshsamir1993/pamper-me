@@ -8,10 +8,23 @@ class AdminRestaurantItemsNew  extends Component{
         if(!this.props.selectedRestaurant.name){
             this.props.history.goBack();
         }
+        if(this.props.location.state.item){
+            return(
+                <div>
+                    <AdminRestaurantItemForm onNewItemSubmit={()=>this.props.editRestaurantItem({
+                                                                                newItem: this.props.newitem, 
+                                                                                selectedRestaurant: this.props.selectedRestaurant
+                                                                            }, this.props.history)}/>
+                </div>  
+            );
+        }
         return(
             <div>
-                <AdminRestaurantItemForm onNewItemSubmit={()=>this.props.createNewRestaurantItem({newItem: this.props.newitem, selectedRestaurant: this.props.selectedRestaurant}, this.props.history)}/>
-            </div>
+                <AdminRestaurantItemForm onNewItemSubmit={()=>this.props.createNewRestaurantItem({
+                                                                            newItem: this.props.newitem, 
+                                                                            selectedRestaurant: this.props.selectedRestaurant
+                                                                        }, this.props.history)}/>
+            </div>  
         );
     }
 }

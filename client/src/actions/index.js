@@ -1,5 +1,13 @@
 import axios from 'axios';
 
+export const loadInitailValues = (item) =>{
+    return{
+        type: "LOAD_ITEM_VALUES",
+        payload: item
+    }
+
+}
+
 export const fetchUser = () => async (dispatch) =>{
     const res = await axios.get("/api/current_user");
 
@@ -58,7 +66,12 @@ export const createNewRestaurantItem = (values, history) => async (dispatch) =>{
     history.push("/admin/restaurants/items");
     dispatch({ type: "FETCH_RESTAURANTS", payload: res.data});
 }
-
+export const editRestaurantItem = (values, history) => async (dispatch) =>{
+    console.log(values);
+    const res = await axios.post("/api/admin/restaurants/items/edit", {values});
+    history.push("/admin/restaurants/items");
+    dispatch({ type: "FETCH_RESTAURANTS", payload: res.data});
+}
 export const setRestaurant =(restaurant) =>{
     return{
         type:"SELECTED_RESTAURANT",

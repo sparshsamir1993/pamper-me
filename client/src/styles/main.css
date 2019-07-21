@@ -4,3 +4,6 @@
 .container{
     margin-top: 50px;
 }
+select{
+    display: block;
+}
