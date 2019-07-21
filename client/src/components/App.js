@@ -1,3 +1,4 @@
+import 'materialize-css'; 
 import 'materialize-css/dist/css/materialize.min.css';
 import '../styles/main.css';
 import React, { Component } from  'react';

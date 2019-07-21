@@ -17,17 +17,28 @@ class AdminRestaurantItemsList extends Component{
     renderItemList(){
         return this.props.items.map(item=>{
             return(
-                <div className="item" key={item.name}>
+                <div className="item" key={item._id}>
                     <div className="right floated content">
-                        <button className="ui primary button">
-                            Save
+                        <button className="ui primary button" onClick={()=> this.props.history.push({
+                            pathname: "/admin/restaurants/items/new",
+                            state: { item: item }
+                        })}>
+                            Edit
                         </button>
-                        <button className="ui button">
-                            Discard
+                        <button className="ui danger button">
+                            Delete
                         </button>
                     </div>
-                    <div className="content">
-                        {item.name}
+                    <div className="content flex-d">
+                        <div className="">
+                            <h4>{item.name}</h4>
+                        </div>
+                        <div className="">
+                            {item.type}
+                        </div>
+                        <div className="">
+                            {item.price} {'\u00A0'} CAD
+                        </div>
                     </div>
                 </div>
             );
