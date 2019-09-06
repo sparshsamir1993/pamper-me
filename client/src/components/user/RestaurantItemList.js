@@ -1,16 +1,24 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import * as actions from "../../actions";
+import $ from 'jquery';
 import CartButtons from "./utilities/CartButton";
 class RestaurantItemList extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            selectedRestaurant: this.props.match.params.restaurantId
+        }
+    }
     componentDidMount(){
-        if(!this.props.selectedRestaurant.name ){
+        if(!this.props.match.params.restaurantId){
             this.props.history.goBack();
         }else{
-            const values = {selectedRestaurant: this.props.selectedRestaurant._id};
+            console.log(this.props.match.params.restaurantId);
+            const values = {selectedRestaurant: this.state.selectedRestaurant};
             this.props.fetchUserRestaurantsItems(values);
         }
-        // console.log(this.props);
     }
 
     renderList(){
@@ -41,7 +49,9 @@ class RestaurantItemList extends Component {
     }
 
     render(){
-        // console.log(this.props);
+        console.log(this.props);
+        console.log(this.props.location.search);
+
         return(
             <div className="ui container">
                 <div className="ui middle aligned divided list">
@@ -54,7 +64,7 @@ class RestaurantItemList extends Component {
 }
 
 function mapStateToProps(state){
-    console.log(state);
+    // console.log(state);
     // debugger;
     let order = state.order.length ? state.order : null;
     order = !order && localStorage.getItem('orderSession') ? JSON.parse(localStorage.getItem('orderSession')).order : null;

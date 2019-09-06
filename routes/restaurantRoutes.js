@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Restaurant = mongoose.model("restaurants");
 const Order  =mongoose.model('Orders');
 const OrderItems  =mongoose.model('OrderItems');
-
+const ObjectId = mongoose.Types.ObjectId;
 module.exports = app =>{
     app.get("/api/restaurants", async (req, res)=>{
         const restaurants = await Restaurant.find();
@@ -44,14 +44,14 @@ module.exports = app =>{
             let orderItems = order.orderItems;
             let orderTotal = order.total;
             let currentOrder  = await Order.findById(order._id);
-            currentOrder = currentOrder.toJSON();
+            // currentOrder = await  currentOrder.toJSON();
             if(orderItems && orderItems.length){    // check if order already has some orderItems
                 var orderItemPresent = orderItems.filter(orderItem => orderItem.item._id == item._id);
                 if(orderItemPresent && orderItemPresent.length){    // check if item in order items
                     let orderItemIndex = currentOrder.orderItems.findIndex(x=> x.item._id==orderItemPresent[0].item._id);
                     let newquantity = currentOrder.orderItems[orderItemIndex].quantity +=1;
                     currentOrder.total += orderItemPresent[0].item.price;
-                    let total = order.total += orderItemPresent[0].item.price;
+                    let total = order.total + orderItemPresent[0].item.price;
                     let cond = {
                         _id : order._id,
                         orderItems: {
@@ -66,6 +66,7 @@ module.exports = app =>{
                         "orderItems.$.quantity":  newquantity
                     }
                     let myOrder = await Order.findOneAndUpdate(cond, update, {new: true}).exec();
+                    myOrder = await myOrder.toJSON();
                     console.log("data is");
                     console.log(myOrder);
 
@@ -80,8 +81,9 @@ module.exports = app =>{
                     await newOrderItem.save();
                     currentOrder.total += item.price;
                     currentOrder.orderItems.push(newOrderItem);
-                    let newOrder = await Order.findByIdAndUpdate(currentOrder._id, { $push : {orderItems : newOrderItem }});
-                    values['order'] = newOrder.toJSON();
+                    // let newOrder = await Order.findByIdAndUpdate(currentOrder._id, { $push : {orderItems : newOrderItem }});
+                    let newOrder = await currentOrder.save();
+                    values['order'] = await newOrder.toJSON();
                 }
                 // orderTotal += orderItemPresent.item.price;
             }
@@ -104,4 +106,56 @@ module.exports = app =>{
         res.send(req.session.order);
     });
 
+
+    app.post("/api/order/removeItem", async (req, res) => {
+
+        const { order, user, item} = req.body;
+        console.log(order);
+        let values={};
+        if(order){
+            let orderItems = order.orderItems;
+            let currentOrder = await Order.findById(order._id);
+            currentOrder = await  currentOrder.toJSON();
+            if(order.orderItems && order.orderItems.length){
+                var orderItemPresent = orderItems.filter(orderItem => orderItem.item._id == item._id);
+                if(orderItemPresent && orderItemPresent.length){
+                    let orderItemIndex = currentOrder.orderItems.findIndex(x=> x.item._id==orderItemPresent[0].item._id);
+                    let newquantity = order.orderItems[orderItemIndex].quantity - 1;
+                    let newTotal = order.total - orderItemPresent[0].item.price;
+
+                    let cond = {
+                        _id : order._id,
+                        orderItems: {
+                            $elemMatch : {
+                                "item._id" : item._id
+                            }
+                        }  
+                    };
+                    let update = {
+                        
+                        
+                            "total": newTotal,
+                            "orderItems.$.quantity": newquantity
+                        
+                    };
+                    if(newquantity >= 1){
+                        let newOrder = await Order.findOneAndUpdate(cond, update, {new: true});
+                        values['order']= await newOrder.toJSON();
+                    }else{
+                        let newOrder = await Order.findByIdAndUpdate(
+                            ObjectId(order._id), 
+                            {$pull: { 'orderItems' : { '_id' : ObjectId(orderItemPresent[0]._id)} }, $set: {"total" :newTotal} }, 
+                            {new: true});                        
+                        values['order']= await newOrder.toJSON();
+                    }
+
+                }
+            }
+            
+        }
+        values['user'] = user;
+        req.session.order = JSON.stringify(values);
+        res.send(req.session.order);
+        
+    });
 }

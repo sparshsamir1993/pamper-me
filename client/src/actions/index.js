@@ -102,7 +102,25 @@ export const addItemToOrder = (values, history) => async (dispatch) =>{
     console.log("dispatched");
 }
 
-
-export const addItemToState = (values, history) =>{
-
+export const removeItemFromOrder = (values, history) => async (dispatch) =>{
+    const res = await axios.post("/api/order/removeItem", values);
+    // console.log(res);
+    // console.log(response);
+    let response = res.data;
+    if(typeof(res.data) === "string"){
+        response  = JSON.parse(res.data);
+    }
+    else if(typeof(res.data) === "object"){
+        response = JSON.stringify(res.data);
+    }
+    
+    if(res.data.order){
+        localStorage.setItem("orderSession", response);
+    }
+    dispatch({type:"FETCH_ORDER", payload: res.data.order});
+    console.log("dispatched");
 }
+
+// export const addItemToState = (values, history) =>{
+
+// }

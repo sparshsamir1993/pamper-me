@@ -1,11 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import _ from 'lodash';
+// library.add(fab, faShoppingCart);
 
 class Header extends Component {
-    componentDidMount(){}
+
+    constructor(props){
+        super(props);
+        let { order } = window.localStorage.orderSession ? JSON.parse(window.localStorage.orderSession) : {};
+        // console.log(order);
+        this.state = {
+            order,
+            numberOfItems : ! _.isEmpty(order) ? order.orderItems.length : 0
+        }
+        console.log(this.state.numberOfItems);
+    }
+    com
+    componentDidMount(){
+        console.log(this.props);
+    }
     renderContent(){
-        console.log(this.props.auth);
+        console.log(this.props);
         switch(this.props.auth){
             case null:
                 return;
@@ -28,6 +48,29 @@ class Header extends Component {
             return "";
         }
     }
+    checkIfCartPresnt(){
+        
+        if(window.localStorage.orderSession){
+            // debugger;
+            const {order} = JSON.parse(window.localStorage.orderSession);
+            if(order){
+                console.log("cart called");
+                return (
+                    <li key="cart">
+                        <a className="ui label">
+                            <FontAwesomeIcon icon={faShoppingCart}/>
+                            &nbsp; {order.orderItems.length}
+                        </a>
+                    </li>
+                );
+            }
+            else{
+                return "";
+            }
+        }else{
+            return "";
+        }
+    }
     render(){
         // console.log(this.props);
         return(
@@ -44,6 +87,7 @@ class Header extends Component {
                             <a href="/restaurants">Restaurants</a>
                         </li>
                         {this.checkIfAdmin()}
+                        {this.checkIfCartPresnt()}
                         {this.renderContent()}
                     </ul>
                 </div>
@@ -52,7 +96,9 @@ class Header extends Component {
     }
 }
 
-function mapStateToProps({auth}){
-    return {auth};
+function mapStateToProps({auth, order}){
+    let  orderStorage  = window.localStorage.orderSession ? JSON.parse(window.localStorage.orderSession).order : {};
+    order = orderStorage;
+    return {auth, order};
 }
 export default connect(mapStateToProps)(Header);
