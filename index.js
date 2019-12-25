@@ -12,7 +12,7 @@ require("./models/OrderItems");
 require("./models/OrderRestaurant");
 require("./services/passport");
 
-mongoose.connect(keys.mongooseURI,{useFindAndModify: false});
+mongoose.connect(keys.mongooseURI,{useFindAndModify: false,  useNewUrlParser: true, useUnifiedTopology: true});
 
 
 

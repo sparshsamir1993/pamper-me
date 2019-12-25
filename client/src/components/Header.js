@@ -25,7 +25,9 @@ class Header extends Component {
         console.log(this.props);
     }
     renderContent(){
+
         console.log(this.props);
+
         switch(this.props.auth){
             case null:
                 return;

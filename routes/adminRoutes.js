@@ -46,5 +46,44 @@ module.exports = app =>{
             res.status(422).send(err);
         }
         
-    });    
+    });   
+    
+    app.post("/api/admin/restaurants/items/update", async (req, res)=>{
+        console.log("item values are");
+        // console.log(req.body.values);
+        const {itemToUpdate, selectedRestaurant} = req.body.values;
+
+        let update= {
+            name: itemToUpdate.name,
+            price: itemToUpdate.price,
+            type: itemToUpdate.type
+        }
+        
+        try{
+            const updatedItem = await RestaurantItems.findByIdAndUpdate( itemToUpdate._id, update, {new: true});
+            // await restaurantItem.save();
+            console.log(updatedItem);
+            res.send(updatedItem);
+        }catch(err){
+            res.status(422).send(err);
+        }
+        
+    });       
+
+    app.post("/api/admin/restaurants/items/delete", async (req, res)=>{
+        console.log("item is");
+        // console.log(req.body.values);
+        // const {item} = req.body.values;
+        console.log(req.body.values);
+        const {item, selectedRestaurant} = req.body.values; 
+        try{
+            const deletedItem = await RestaurantItems.findByIdAndDelete( item._id);
+            // await restaurantItem.save();
+            console.log(deletedItem);
+            res.send(deletedItem);
+        }catch(err){
+            res.status(422).send(err);
+        }
+        
+    });
 }

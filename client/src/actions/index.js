@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const loadInitailValues = (item) =>{
+export const loadInitailItemFormValues = (item) =>{
     return{
         type: "LOAD_ITEM_VALUES",
         payload: item
@@ -68,10 +68,21 @@ export const createNewRestaurantItem = (values, history) => async (dispatch) =>{
 }
 export const editRestaurantItem = (values, history) => async (dispatch) =>{
     console.log(values);
-    const res = await axios.post("/api/admin/restaurants/items/edit", {values});
+    const res = await axios.post("/api/admin/restaurants/items/update", {values});
     history.push("/admin/restaurants/items");
     dispatch({ type: "FETCH_RESTAURANTS", payload: res.data});
 }
+
+export const deleteRestaurantItem = (values, history) => async (dispatch) =>{
+    const res = await axios.post("/api/admin/restaurants/items/delete", {values});
+    debugger;
+    history.push({
+        pathname:"/admin/restaurants/items",
+        state: {selectedRestaurant: values.selectedRestaurant}
+    });
+    dispatch({ type: "FETCH_RESTAURANTS", payload: res.data});
+}
+
 export const setRestaurant =(restaurant) =>{
     return{
         type:"SELECTED_RESTAURANT",
