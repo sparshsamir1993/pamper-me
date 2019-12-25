@@ -1,8 +1,9 @@
 export default function(state = {}, action){
+    console.log(action);
     switch(action.type){
         case LOAD:
             return{
-                data: ation.data
+                data: action.data
             }
         default:
             return state

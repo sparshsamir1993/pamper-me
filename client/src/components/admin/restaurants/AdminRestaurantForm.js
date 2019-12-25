@@ -3,6 +3,7 @@ import { reduxForm, Field } from "redux-form";
 import AdminRestaurantField from "./AdminRestaurantField";
 
 class AdminRestaurantForm extends Component{
+    
     render(){
         return(
             <div>

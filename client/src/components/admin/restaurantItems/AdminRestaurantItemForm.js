@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import { reduxForm, Field } from "redux-form";
 import $ from 'jquery';
+import { connect} from "react-redux";
 import AdminRestaurantField from "../restaurants/AdminRestaurantField";
+import { loadInitailItemFormValues } from "../../../actions";
 
 class AdminRestaurantItemForm extends Component{
+
+
 
     render(){
         return(
@@ -27,6 +31,14 @@ class AdminRestaurantItemForm extends Component{
         );
     }
 }
-export default reduxForm({
+AdminRestaurantItemForm = reduxForm({
     form: "adminRestaurantItemForm"
 })(AdminRestaurantItemForm);
+
+// AdminRestaurantItemForm = connect(
+//     state =>({
+//         initialValues: state,
+//     }),{ load: loadInitailItemFormValues}
+// )(AdminRestaurantItemForm);
+
+export default AdminRestaurantItemForm;
