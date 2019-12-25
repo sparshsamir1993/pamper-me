@@ -29,7 +29,7 @@ class App extends Component{
                             <Route exact path="/admin/restaurants/items" component={AdminRestaurantItemList}/>
                             <Route exact path="/admin/restaurants/items/new" component={AdminRestaurantItemNew}/>
                             <Route exact path="/restaurants" component={RestaurantList}/>
-                            <Route exact path="/restaurants/items" component={RestaurantItemList}/>
+                            <Route exact path="/restaurants/:restaurantId/items" component={RestaurantItemList}/>
                 
                         </div>
                     </div>

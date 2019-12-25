@@ -19,7 +19,7 @@ class RestaurantList extends Component {
                             Phone Number : {restaurant.phoneNumber}
                         </div>
                         </div>
-                        <Link className="ui bottom attached button" to="/restaurants/items" onClick={()=>this.props.setRestaurant(restaurant)}>
+                        <Link className="ui bottom attached button" to={`/restaurants/${restaurant._id}/items`} onClick={()=>this.props.setRestaurant(restaurant)}>
                             <i className="add icon"></i>
                             Check Out
                         </Link>

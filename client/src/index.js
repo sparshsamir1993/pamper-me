@@ -2,14 +2,16 @@ import React from  'react';
 import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware  } from 'redux';
+import { createStore, applyMiddleware, compose  } from 'redux';
 import App from "./components/App";
 import reducers from './reducers';
 import ReduxThunk from 'redux-thunk';
 import axios from 'axios';
 window.axios = axios;
 
-const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(reducers, {}, composeEnhancers(applyMiddleware(ReduxThunk)));
 
 
 
