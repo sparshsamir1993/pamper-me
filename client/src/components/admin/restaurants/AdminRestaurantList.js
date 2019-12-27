@@ -13,7 +13,7 @@ class AdminRestaurantList extends Component {
             return this.props.restaurants.reverse().map( restaurant => {
                 return(
                     
-                    <div className="card seven wide column" key={restaurant._id}>
+                    <div className="card seven wide column" key={restaurant.ID}>
                         <div className="content">
                         <div className="header">{restaurant.name}</div>
                         <div className="description">

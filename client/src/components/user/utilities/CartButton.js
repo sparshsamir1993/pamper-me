@@ -17,15 +17,16 @@ class CartButton extends Component{
             quantity: currentQuantity,
             new: true
         }
-        let orderSess = JSON.parse(localStorage.orderSession);
-        console.log(orderSess);
-        let { order } = orderSess;
-        let currentItem = order.orderItems.filter(thisItem => thisItem.item._id == props.currentItem._id);
-        if (currentItem.length > 0){
-            console.log(currentItem);
-            this.state.new = false;
+        if(localStorage.orderSession){
+            let orderSess = JSON.parse(localStorage.orderSession);
+            console.log(orderSess);
+            let { order } = orderSess;
+            let currentItem = order.orderItems.filter(thisItem => thisItem.item._id == props.currentItem._id);
+            if (currentItem.length > 0){
+                console.log(currentItem);
+                this.state.new = false;
+            }
         }
-
     }
     async addItem(item){
         // console.log("from add items");

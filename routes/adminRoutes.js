@@ -1,28 +1,41 @@
 const mongoose = require("mongoose");
-const Restaurants = mongoose.model('restaurants');
-const RestaurantItems = mongoose.model('restaurantitems');
+// const Restaurants = mongoose.model('restaurants');
+// const RestaurantItems = mongoose.model('restaurantitems');
+const Restaurants = require("../models/Restaurant");
+const RestaurantItems = require("../models/RestaurantItems");
+Restaurants.hasMany(RestaurantItems, { as: "Items", foreignKey: 'restaurantID'});
+RestaurantItems.belongsTo(Restaurants, { as: "Restaurant", foreignKey: 'restaurantID'});
+
+const errHandler = (err) =>{
+    console.log("Error :: "+ err);
+}
+
 module.exports = app =>{
 
     app.get("/api/admin/restaurants", async (req, res) => {
-        const restaurants = await Restaurants.find();
+        const restaurants = await Restaurants.findAll({include: [{model: RestaurantItems, as: "Items"}]}).catch(errHandler);
         res.send(restaurants);
     });
 
     app.get("/api/admin/restaurants/items", async (req, res) => {
         // console.log(req);
-        const items = await RestaurantItems.find({restaurant:req.query.selectedRestaurant});
+        const items = await RestaurantItems.findAll();
         res.send(items);
     });
 
     app.post("/api/admin/restaurants/create", async (req, res)=>{
         console.log(req.body.values);
-        const {name, contact} = req.body.values;
-        const restaurant = new Restaurants({
+        const {name, phone, address, lat, lng} = req.body.values;
+        const data = {
             name,
-            phoneNumber: contact
-        });
+            phone,
+            address,
+            lat,
+            lng
+        };
+        
         try{
-            await restaurant.save();
+            const restaurant  = await Restaurants.create(data).catch(errHandler);
             res.send(restaurant);
         }catch(err){
             res.status(422).send(err);
@@ -33,15 +46,17 @@ module.exports = app =>{
         console.log("item values are");
         console.log(req.body.values);
         const {newItem, selectedRestaurant} = req.body.values;
-        const restaurantItem = new RestaurantItems({
-            restaurant: selectedRestaurant._id,
+        console.log(selectedRestaurant.ID);
+        const restaurantItem = {
+            restaurantID: selectedRestaurant.ID,
             name: newItem.name,
-            price: newItem.price,
-            type: newItem.type
-        });
+            price: newItem.price
+            // type: newItem.type
+        };
         try{
-            await restaurantItem.save();
-            res.send(restaurantItem);
+            const newItem = await RestaurantItems.create(restaurantItem).catch(errHandler);
+            // await restaurantItem.save();
+            res.send(newItem);
         }catch(err){
             res.status(422).send(err);
         }

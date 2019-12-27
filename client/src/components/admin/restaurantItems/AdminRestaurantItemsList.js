@@ -26,8 +26,8 @@ class AdminRestaurantItemsList extends Component{
         console.log(this.props);
         console.log(this.state);
         if(this.state.selectedRestaurant){
-            console.log(this.state.selectedRestaurant._id);
-            const values = {selectedRestaurant: this.state.selectedRestaurant._id};
+            console.log(this.state.selectedRestaurant.ID);
+            const values = {selectedRestaurant: this.state.selectedRestaurant.ID};
             this.props.getRestaurantItems(values);
         }
         if(!this.state.selectedRestaurant.name){
@@ -38,7 +38,7 @@ class AdminRestaurantItemsList extends Component{
         let selectedRestaurant = this.state.selectedRestaurant;
         return this.props.items.map(item=>{
             return(
-                <div className="item" key={item._id}>
+                <div className="item" key={item.ID}>
                     <div className="right floated content">
                         <button className="ui primary button" onClick={()=> this.props.history.push({
                             pathname: "/admin/restaurants/items/new",

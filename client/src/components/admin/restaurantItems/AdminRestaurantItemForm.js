@@ -16,12 +16,12 @@ class AdminRestaurantItemForm extends Component{
                 <form onSubmit={this.props.handleSubmit(this.props.onNewItemSubmit)}>
                     <Field key="name" type="text" label="Item Name" name="name" component={AdminRestaurantField}/>
                     <Field key="price" type="text" label="Item Price" name="price" component={AdminRestaurantField}/>
-                    <Field key="type" name="type" component="select">
+                    {/* <Field key="type" name="type" component="select">
                         <option></option>
                         <option>Mains</option>
                         <option>Sides</option>
                         <option>Extra</option>
-                    </Field>
+                    </Field> */}
                     <button className="teal btn-flat right white-text" type="submit">
                         <i className="material-icons right">done</i>
                     </button>
