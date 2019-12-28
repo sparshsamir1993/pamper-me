@@ -70,15 +70,20 @@ module.exports = app =>{
 
         let update= {
             name: itemToUpdate.name,
-            price: itemToUpdate.price,
-            type: itemToUpdate.type
+            price: itemToUpdate.price
+            // type: itemToUpdate.type
         }
         
         try{
-            const updatedItem = await RestaurantItems.findByIdAndUpdate( itemToUpdate._id, update, {new: true});
+            const item = await RestaurantItems.findOne({where: {ID: itemToUpdate.ID}}).catch(errHandler);
+            const updStat = await item.update(update).catch(errHandler);
+            console.log(item.dataValues.name);
+            debugger;
+            
+            // const updatedItem = await RestaurantItems.findByIdAndUpdate( itemToUpdate._id, update, {new: true});
             // await restaurantItem.save();
-            console.log(updatedItem);
-            res.send(updatedItem);
+            console.log(updStat);
+            res.send(updStat);
         }catch(err){
             res.status(422).send(err);
         }

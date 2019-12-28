@@ -1,11 +1,17 @@
 const mongoose = require('mongoose');
-const Restaurant = mongoose.model("restaurants");
+// const Restaurant = mongoose.model("restaurants");
 const Order  =mongoose.model('Orders');
 const OrderItems  =mongoose.model('OrderItems');
 const ObjectId = mongoose.Types.ObjectId;
+
+const Restaurants = require("../models/Restaurant");
+const RestaurantItems = require("../models/RestaurantItems");
+Restaurants.hasMany(RestaurantItems, { as: "Items", foreignKey: 'restaurantID'});
+RestaurantItems.belongsTo(Restaurants, { as: "Restaurant", foreignKey: 'restaurantID'});
+
 module.exports = app =>{
     app.get("/api/restaurants", async (req, res)=>{
-        const restaurants = await Restaurant.find();
+        const restaurants = await Restaurants.findAll({include: [{model: RestaurantItems, as: "Items"}]}).catch(errHandler);
         // console.log("restaurants are");
         // console.log(restaurants);
         res.send(restaurants);

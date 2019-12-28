@@ -12,14 +12,14 @@ class RestaurantList extends Component {
             return this.props.restaurants.map( restaurant => {
                 return(
                     
-                    <div className="card seven wide column" key={restaurant._id}>
+                    <div className="card seven wide column" key={restaurant.ID}>
                         <div className="content">
                         <div className="header">{restaurant.name}</div>
                         <div className="description">
                             Phone Number : {restaurant.phoneNumber}
                         </div>
                         </div>
-                        <Link className="ui bottom attached button" to={`/restaurants/${restaurant._id}/items`} onClick={()=>this.props.setRestaurant(restaurant)}>
+                        <Link className="ui bottom attached button" to={`/restaurants/${restaurant.ID}/items`} onClick={()=>this.props.setRestaurant(restaurant)}>
                             <i className="add icon"></i>
                             Check Out
                         </Link>
