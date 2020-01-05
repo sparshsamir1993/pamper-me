@@ -1,13 +1,28 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 // const Restaurant = mongoose.model("restaurants");
-const Order  =mongoose.model('Orders');
-const OrderItems  =mongoose.model('OrderItems');
-const ObjectId = mongoose.Types.ObjectId;
+// const Order  =mongoose.model('Orders');
+const Order = require("../models/Order");
+const OrderItems = require("../models/OrderItems");
+// const Item = require("../models/RestaurantItems");
+// const OrderItems  =mongoose.model('OrderItems');
+// const ObjectId = mongoose.Types.ObjectId;
 
 const Restaurants = require("../models/Restaurant");
 const RestaurantItems = require("../models/RestaurantItems");
-Restaurants.hasMany(RestaurantItems, { as: "Items", foreignKey: 'restaurantID'});
-RestaurantItems.belongsTo(Restaurants, { as: "Restaurant", foreignKey: 'restaurantID'});
+// Restaurants.hasMany(RestaurantItems, { as: "Items", foreignKey: 'restaurantID'});
+// RestaurantItems.belongsTo(Restaurants, { as: "Restaurant", foreignKey: 'restaurantID'});
+
+// Order.hasMany(OrderItems, { as: "OrderItems", foreignKey: 'orderID'});
+// OrderItems.belongsTo(Order, { as: "Order", foreignKey: 'orderID'});
+
+// OrderItems.hasOne(Item, { as: "Item", foreignKey: "itemID"});
+// Item.belongsTo(OrderItems, { as: "OrderItems", foreignKey: "itemID"});
+
+
+const errHandler = (err) =>{
+    console.log("Error :: "+ err);
+}
+
 
 module.exports = app =>{
     app.get("/api/restaurants", async (req, res)=>{

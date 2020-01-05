@@ -28,7 +28,7 @@ class RestaurantItemList extends Component {
                 
                 return(
                     
-                    <div className="item" key={item._id}>
+                    <div className="item" key={item.ID}>
                         <CartButtons orderValues={this.props.order} addToCartClick={this.props.addItemToOrder} currentItem={item} />
                         <div className="content">
                             <div className="header">{item.name}</div>

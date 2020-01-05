@@ -30,9 +30,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require("./routes/authRoutes")(app);
-// require("./routes/appRoutes")(app);
-// require("./routes/restaurantRoutes")(app);
 require("./routes/adminRoutes")(app);
+// require("./routes/appRoutes")(app);
+require("./routes/restaurantRoutes")(app);
+
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT);
