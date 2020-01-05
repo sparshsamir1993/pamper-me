@@ -3,16 +3,21 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const mongoose = require("mongoose");
 const keys = require("../keys/keys");
-const User = mongoose.model("users");
+// const User = mongoose.model("users");
+const User = require("../models/Users");
+
+const errHandler = (err) =>{
+  console.log("Error :: "+ err);
+}
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user.ID);
 });
 
 passport.deserializeUser((id, done) => {
-  User.findById(id).then(user => {
+  User.findOne({where: {ID: id}}).then(user => {
     done(null, user);
-  });
+  }); 
 });
 
 passport.use(
@@ -24,13 +29,13 @@ passport.use(
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
-      const existingUser = await User.findOne({ googleId: profile.id });
+      const existingUser = await User.findOne({where: {googleID: profile.id }});
       console.log("existingUser");
       console.log(existingUser);
       if (existingUser) {
         return done(null, existingUser);
       } 
-      const user = await new User({ googleId: profile.id, name: profile.displayName, email: profile._json.email, is_admin: false }).save();
+      const user = await User.create({ googleID: profile.id, name: profile.displayName, email: profile._json.email, is_admin: false }).catch(errHandler);
       console.log(profile._json);
       done(null, user);
     }

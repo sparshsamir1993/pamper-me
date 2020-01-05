@@ -18,8 +18,9 @@ module.exports = app =>{
     });
 
     app.get("/api/admin/restaurants/items", async (req, res) => {
-        // console.log(req);
-        const items = await RestaurantItems.findAll();
+        // console.log(req.query);
+        const {selectedRestaurant} = req.query;
+        const items = await RestaurantItems.findAll({where: {restaurantID: selectedRestaurant}});
         res.send(items);
     });
 

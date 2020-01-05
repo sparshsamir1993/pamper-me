@@ -101,6 +101,9 @@ class Header extends Component {
 function mapStateToProps({auth, order}){
     let  orderStorage  = window.localStorage.orderSession ? JSON.parse(window.localStorage.orderSession).order : {};
     order = orderStorage;
+    // debugger;
+    auth = Object.keys(auth).length == 0 ? false: true;
+    
     return {auth, order};
 }
 export default connect(mapStateToProps)(Header);

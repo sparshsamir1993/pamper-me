@@ -6,13 +6,13 @@ const bodyParser = require('body-parser');
 const keys = require("./keys/keys");
 require('./db.js');
 // require('./dbBootstrap.js')();
-// require("./models/Users");
+require("./models/Users");
 require("./models/Restaurant");
 require("./models/RestaurantItems");
 // require("./models/Order");
 // require("./models/OrderItems");
 // require("./models/OrderRestaurant");
-// require("./services/passport");
+require("./services/passport");
 
 // mongoose.connect(keys.mongooseURI,{useFindAndModify: false,  useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -26,10 +26,10 @@ app.use(
     })
 );
 
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
-// require("./routes/authRoutes")(app);
+require("./routes/authRoutes")(app);
 // require("./routes/appRoutes")(app);
 // require("./routes/restaurantRoutes")(app);
 require("./routes/adminRoutes")(app);

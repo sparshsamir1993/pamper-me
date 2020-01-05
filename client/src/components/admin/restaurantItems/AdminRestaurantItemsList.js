@@ -46,7 +46,7 @@ class AdminRestaurantItemsList extends Component{
                         })}>
                             Edit
                         </button>
-                        <button className="ui inverted red button" onClick={()=> this.props.deleteRestaurantItem({item, selectedRestaurant}, this.props.history)}>
+                        <button className="ui red button" onClick={()=> this.props.deleteRestaurantItem({item, selectedRestaurant}, this.props.history)}>
                             Delete
                         </button>
                     </div>
