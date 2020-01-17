@@ -16,11 +16,10 @@ class Header extends Component {
         // console.log(order);
         this.state = {
             order,
-            numberOfItems : ! _.isEmpty(order) ? order.orderItems.length : 0
+            numberOfItems : ! _.isEmpty(order) ? order.OrderItems.length : 0
         }
         console.log(this.state.numberOfItems);
     }
-    com
     componentDidMount(){
         console.log(this.props);
     }
@@ -61,7 +60,7 @@ class Header extends Component {
                     <li key="cart">
                         <a className="ui label">
                             <FontAwesomeIcon icon={faShoppingCart}/>
-                            &nbsp; {order.orderItems.length}
+                            &nbsp; {order.OrderItems.length}
                         </a>
                     </li>
                 );

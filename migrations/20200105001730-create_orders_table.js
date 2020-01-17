@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Users",{
+    return queryInterface.createTable("Orders",{
       ID: {
         type: Sequelize.INTEGER(11),
         allowNull: false,
@@ -10,13 +10,19 @@ module.exports = {
         autoIncrement: true
       },
       grand_total: Sequelize.DECIMAL(10,2),
-      userID: Sequelize.INTEGER(11),
+      is_confirmed:{
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      userID: {
+        type: Sequelize.INTEGER(11)
+      },
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE
     })
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("Users");
+    return queryInterface.dropTable("Orders");
   }
 };

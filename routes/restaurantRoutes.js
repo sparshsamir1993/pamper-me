@@ -20,7 +20,7 @@ const RestaurantItems = require("../models/RestaurantItems");
 
 
 const errHandler = (err) =>{
-    console.log("Error :: "+ err);
+    console.log("\n\n  *****  Error  **** :: "+ err);
 }
 
 
@@ -33,78 +33,92 @@ module.exports = app =>{
     });
 
     app.post("/api/order/addItem", async (req, res) => {
-        const { order, user, item} = req.body;
+        const { order, user, item, newQuantity} = req.body;
         let currentOrder = {};
+        let orderItem = {};
         let values={};
         // const { order, orderItems } = order;
         if(!order){
             let total = 0;
             if(user){
-                currentOrder  = new Order({
-                    user: user._id,
-                    is_confirmed: false,
-                    total: total
-                });
-                await currentOrder.save();
-                let orderItem  = new OrderItems({
-                    order: currentOrder._id,
-                    item: item
-                });
-                orderItem.quantity +=1;
-                await orderItem.save();
-                currentOrder.total+= (item.price * orderItem.quantity);
-                currentOrder.orderItems.push(orderItem);
-                await currentOrder.save();
-                values['order'] = currentOrder;
-                values['orderItem'] = orderItem;
+                const {ID} = user;
+                try{
+                    const data = {
+                        userID: ID
+                    };
+                    currentOrder  = await Order.create(data).catch(errHandler);
+                    console.log(currentOrder.dataValues);
+                    let orderID = currentOrder.dataValues.ID;
+                    const itemData = {
+                        quantity: 1,
+                        itemID: item.ID,
+                        orderID    
+                    }
+                    orderItem = await OrderItems.create(itemData).catch(errHandler);
+
+                }catch(err){
+                    res.status(422).send(err);
+                }
+                total += item.price * orderItem.dataValues.quantity;
+                currentOrder = await currentOrder.update({grand_total: total},{include: [{model: OrderItems, as: "OrderItems"}]}).catch(errHandler);
+                // console.log(orderItem);
+                // orderItem.quantity +=1;
+                // await orderItem.save();
+                // currentOrder.total+= (item.price * orderItem.quantity);
+                // currentOrder.orderItems.push(orderItem);
+                // await currentOrder.save();
+                values['order'] = await Order.findOne({where: {ID : currentOrder.dataValues.ID}, include: [{model: OrderItems, as: "OrderItems"}]}).catch(errHandler);
+                values['orderItem'] = orderItem.dataValues;
                 
             }
         }
         else if(order){
             // console.log(order);
-            let orderItems = order.orderItems;
+            let orderItems = order.OrderItems;
             let orderTotal = order.total;
-            let currentOrder  = await Order.findById(order._id);
+            
             // currentOrder = await  currentOrder.toJSON();
             if(orderItems && orderItems.length){    // check if order already has some orderItems
-                var orderItemPresent = orderItems.filter(orderItem => orderItem.item._id == item._id);
-                if(orderItemPresent && orderItemPresent.length){    // check if item in order items
-                    let orderItemIndex = currentOrder.orderItems.findIndex(x=> x.item._id==orderItemPresent[0].item._id);
-                    let newquantity = currentOrder.orderItems[orderItemIndex].quantity +=1;
-                    currentOrder.total += orderItemPresent[0].item.price;
-                    let total = order.total + orderItemPresent[0].item.price;
-                    let cond = {
-                        _id : order._id,
-                        orderItems: {
-                            $elemMatch : {
-                                "item._id" : item._id
-                            }
-                        }  
-                    };
+                let orderItemPresent = orderItems.filter(orderItem => orderItem.itemID == item.ID)[0];
+                if(orderItemPresent){    // check if item in order items
                     
-                    let update = {
-                        "total": total,
-                        "orderItems.$.quantity":  newquantity
-                    }
-                    let myOrder = await Order.findOneAndUpdate(cond, update, {new: true}).exec();
-                    myOrder = await myOrder.toJSON();
-                    console.log("data is");
-                    console.log(myOrder);
+                    let updatedOItem = await OrderItems.update({
+                        quantity: newQuantity
+                    },{
+                        where:{
+                            ID: orderItemPresent.ID
+                        }
+                    }).catch(errHandler);
+                    
+                    console.log(updatedOItem);
 
-                    values['order'] = myOrder;
+                    if(updatedOItem ==1){
+                        let currentOrder  = await Order.findOne({where: {ID : order.ID}, include: [{model: OrderItems, as: "OrderItems"}]}).catch(errHandler);
+                        console.log(currentOrder);
+                        values['order'] = currentOrder;
+                    }
 
                 }else{
-                    let newOrderItem = new OrderItems({
-                        order: currentOrder._id,
-                        item: item
-                    });
-                    newOrderItem.quantity +=1;
-                    await newOrderItem.save();
-                    currentOrder.total += item.price;
-                    currentOrder.orderItems.push(newOrderItem);
+                    let data = {
+                        orderID: order.ID,
+                        itemID: item.ID,
+                        quantity: 1
+                    }
+                    let orderItem = await OrderItems.create(data).catch(errHandler);
+                    console.log("new order item is  \n");
+                    console.log(orderItem);
+                    order.OrderItems.push(orderItem);
+                    // let newOrderItem = new OrderItems({
+                    //     order: currentOrder._id,
+                    //     item: item
+                    // });
+                    // newOrderItem.quantity +=1;
+                    // await newOrderItem.save();
+                    // currentOrder.total += item.price;
+                    // currentOrder.orderItems.push(newOrderItem);
                     // let newOrder = await Order.findByIdAndUpdate(currentOrder._id, { $push : {orderItems : newOrderItem }});
-                    let newOrder = await currentOrder.save();
-                    values['order'] = await newOrder.toJSON();
+                    // let newOrder = await currentOrder.save();
+                    values['order'] = order;
                 }
                 // orderTotal += orderItemPresent.item.price;
             }

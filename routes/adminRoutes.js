@@ -3,8 +3,21 @@ const mongoose = require("mongoose");
 // const RestaurantItems = mongoose.model('restaurantitems');
 const Restaurants = require("../models/Restaurant");
 const RestaurantItems = require("../models/RestaurantItems");
+const Users = require("../models/Users");
+const Orders = require("../models/Order");
+const OrderItems = require("../models/OrderItems");
+
 Restaurants.hasMany(RestaurantItems, { as: "Items", foreignKey: 'restaurantID'});
 RestaurantItems.belongsTo(Restaurants, { as: "Restaurant", foreignKey: 'restaurantID'});
+
+Users.hasMany(Orders, { as: "Orders", foreignKey: "userID"});
+Orders.belongsTo(Users, { as: "Order", foreignKey: "userID"});
+
+Orders.hasMany(OrderItems, { as: "OrderItems", foreignKey: 'orderID'});
+OrderItems.belongsTo(Orders, { as: "Order", foreignKey: 'orderID'});
+
+RestaurantItems.hasMany(OrderItems, { as: "Item", foreignKey: "itemID"});
+OrderItems.belongsTo(RestaurantItems, { as: "Item", foreignKey: "itemID"});
 
 const errHandler = (err) =>{
     console.log("Error :: "+ err);

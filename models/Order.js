@@ -8,6 +8,10 @@ module.exports = sequelize.define("Orders",{
         autoIncrement: true
     },
     grand_total: Sequelize.DECIMAL(10,2),
+    is_confirmed:{
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
 });
