@@ -62,9 +62,8 @@ class CartButton extends Component{
     async removeItem(item){
         console.log(this.props);
         let newQuan = this.state.quantity - 1;
-            
         this.setState({quantity: newQuan});
-        if(this.props.orderValues && this.props.orderValues.user){
+        if(this.props.orderValues && this.props.user){
             const values  = {
                 order: this.props.orderValues,
                 item,

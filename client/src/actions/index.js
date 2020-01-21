@@ -114,6 +114,7 @@ export const addItemToOrder = (values, history) => async (dispatch) =>{
 }
 
 export const removeItemFromOrder = (values, history) => async (dispatch) =>{
+    // debugger
     const res = await axios.post("/api/order/removeItem", values);
     // console.log(res);
     // console.log(response);
