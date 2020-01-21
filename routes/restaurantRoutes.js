@@ -123,24 +123,26 @@ module.exports = app =>{
                         let newQuantity = order.OrderItems[orderItemIndex].quantity - 1;
                         // let newTotal = order.total - orderItemPresent[0].item.price;
     
-                        let updatedOItem = await OrderItems.update({
-                            quantity: newQuantity
-                        },{
-                            where:{
-                                ID: orderItemPresent[0].ID
-                            }
-                        }).catch(errHandler);
-    
-                        if(updatedOItem == 1){
+
+                        if(newQuantity >=1){
+                            let updatedOItem = await OrderItems.update({
+                                quantity: newQuantity
+                            },{
+                                where:{
+                                    ID: orderItemPresent[0].ID
+                                }
+                            }).catch(errHandler);
                             let currentOrder  = await Order.findOne({where: {ID : order.ID}, include: [{model: OrderItems, as: "OrderItems"}]}).catch(errHandler);
                             console.log(currentOrder);
                             values['order'] = currentOrder;         
                         }else{
-                            // let newOrder = await Order.findByIdAndUpdate(
-                            //     ObjectId(order._id), 
-                            //     {$pull: { 'orderItems' : { '_id' : ObjectId(orderItemPresent[0]._id)} }, $set: {"total" :newTotal} }, 
-                            //     {new: true});                        
-                            // values['order']= await newOrder.toJSON();
+                            let newOrder = OrderItems.destroy({
+                                where:{
+                                    ID: orderItemPresent[0].ID
+                                }
+                            });
+                            let currentOrder  = await Order.findOne({where: {ID : order.ID}, include: [{model: OrderItems, as: "OrderItems"}]}).catch(errHandler);
+                            values['order']= currentOrder;
                         }
                     }
                 }                
