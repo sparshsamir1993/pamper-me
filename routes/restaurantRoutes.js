@@ -20,6 +20,7 @@ module.exports = app =>{
         let currentOrder = {};
         let orderItem = {};
         let values={};
+        
         if(!order){
             let total = 0;
             if(user){
@@ -87,16 +88,17 @@ module.exports = app =>{
                 }
             }
             else{
-                let newOrderItem = new OrderItems({
-                    order: currentOrder._id,
-                    item: item
-                });
-                newOrderItem.quantity +=1;
-                await newOrderItem.save();
-                currentOrder.total += item.price;
-                currentOrder.orderItems.push(newOrderItem);
-                let newOrder = await currentOrder.save();
-                values['order'] = newOrder;
+                let data = {
+                    orderID: order.ID,
+                    itemID: item.ID,
+                    quantity: 1
+                }
+                let orderItem = await OrderItems.create(data).catch(errHandler);
+                console.log("new order item is  \n");
+                console.log(orderItem);
+                order.OrderItems.push(orderItem);
+
+                values['order'] = order;
             }
         }
         values['user'] = user;
@@ -136,7 +138,7 @@ module.exports = app =>{
                             console.log(currentOrder);
                             values['order'] = currentOrder;         
                         }else{
-                            let newOrder = OrderItems.destroy({
+                            let newOrder = await OrderItems.destroy({
                                 where:{
                                     ID: orderItemPresent[0].ID
                                 }
