@@ -58,10 +58,10 @@ class Header extends Component {
                 console.log("cart called");
                 return (
                     <li key="cart">
-                        <a className="ui label">
+                        <Link to="/cart" className="ui label">
                             <FontAwesomeIcon icon={faShoppingCart}/>
                             &nbsp; {order.OrderItems.length}
-                        </a>
+                        </Link>
                     </li>
                 );
             }
