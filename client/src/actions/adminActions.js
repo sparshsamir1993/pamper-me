@@ -21,10 +21,20 @@ export const editRestaurantItem = (values, history) => async (dispatch) =>{
 
 export const deleteRestaurantItem = (values, history) => async (dispatch) =>{
     const res = await axios.post("/api/admin/restaurants/items/delete", {values});
-    debugger;
     history.push({
         pathname:"/admin/restaurants/items",
         state: {selectedRestaurant: values.selectedRestaurant}
     });
     dispatch({ type: "FETCH_RESTAURANTS", payload: res.data});
+}
+
+
+export const editRestaurant = (values, history) => async (dispatch) => {
+    const res = await axios.put("/api/admin/restaurants",{values});
+    console.log(res);
+    if(res.status === 200){
+        history.push("/admin/restaurants");
+        dispatch({ type: "FETCH_RESTAURANTS", payload: res.data });
+    }
+    console.log(values);
 }

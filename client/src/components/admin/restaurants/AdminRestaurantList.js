@@ -24,6 +24,16 @@ class AdminRestaurantList extends Component {
                             <i className="add icon"></i>
                             Check Out
                         </Link>
+                        <button className="ui bottom attached button" 
+                                onClick={()=>this.props.history.push({
+                                    pathname: "/admin/restaurants/new",
+                                    state:{
+                                        selectedRestaurant: restaurant
+                                    }
+                                })}>
+                            <i className="add icon"></i>
+                            Edit
+                        </button>
                     </div>
                 
                 );

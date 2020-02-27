@@ -96,7 +96,7 @@ module.exports = app =>{
             
             // const updatedItem = await RestaurantItems.findByIdAndUpdate( itemToUpdate._id, update, {new: true});
             // await restaurantItem.save();
-            console.log(updStat);
+            // console.log(updStat);
             res.send(updStat);
         }catch(err){
             res.status(422).send(err);
@@ -108,16 +108,29 @@ module.exports = app =>{
         console.log("item is");
         // console.log(req.body.values);
         // const {item} = req.body.values;
-        console.log(req.body.values);
+        // console.log(req.body.values);
         const {item, selectedRestaurant} = req.body.values; 
         try{
             const deletedItem = await RestaurantItems.findByIdAndDelete( item._id);
             // await restaurantItem.save();
-            console.log(deletedItem);
+            // console.log(deletedItem);
             res.send(deletedItem);
         }catch(err){
             res.status(422).send(err);
         }
         
     });
+
+    app.put("/api/admin/restaurants", async(req, res) => {
+        console.log(req.body);
+        let update = req.body.values;
+        let restaurant = await Restaurants.findOne({ where: {ID: update.ID} }).catch(errHandler);
+        const updatedRes = await restaurant.update(update).catch(errHandler); 
+        // console.log(updatedRes.ID);
+        if(updatedRes.ID){
+            res.status(200).json(updatedRes);
+        }else{
+            res.status(500).send("could not update");
+        }
+    })
 }
