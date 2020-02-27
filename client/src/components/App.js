@@ -17,6 +17,11 @@ class App extends Component{
     componentDidMount(){
         this.props.fetchUser();
         this.props.fetchUserRestaurants();
+        let {order} = window.localStorage.orderSession ? JSON.parse(window.localStorage.orderSession) : {};
+        console.log(order);
+        if(order.ID && !this.props.order.ID){
+            this.props.fetchCurrentOrder(order.ID);
+        }
     }
     render(){
         return(
@@ -42,4 +47,7 @@ class App extends Component{
 
     }
 }
-export default connect(null, actions)(App);
+function mapStateToProps(state){
+    return state;
+}
+export default connect(mapStateToProps, actions)(App);

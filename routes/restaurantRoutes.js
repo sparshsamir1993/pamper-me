@@ -156,4 +156,10 @@ module.exports = app =>{
         req.session.order = JSON.stringify(values);
         res.send(req.session.order);
     });
+
+    app.get("/api/order", async (req, res) => {
+        let currentOrder = await  Order.findOne({where: { ID: req.query.ID}, include: [{model: OrderItems, as: "OrderItems"}]}).catch(errHandler);
+        // console.log(currentOrder);
+        res.status(200).json(currentOrder);
+    })
 }

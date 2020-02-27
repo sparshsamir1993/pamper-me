@@ -23,7 +23,10 @@ class Cart extends Component{
                         <h3>{currItem[0].name}</h3>
                         <div className="secondary-content" style={cartButtonPosition}>
                             
-                            <CartButtons orderValues={this.props.order} addToCartClick={this.props.addItemToOrder} currentItem={currItem[0]} />
+                            <CartButtons 
+                                orderValues={this.props.order} 
+                                addToCartClick={this.props.addItemToOrder} 
+                                currentItem={currItem[0]} />
                         </div>
 
                     </li>

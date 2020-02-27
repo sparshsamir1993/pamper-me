@@ -20,11 +20,11 @@ class CartButton extends Component{
         
         if(localStorage.orderSession){
             let orderSess = JSON.parse(localStorage.orderSession);
-            console.log(orderSess);
+            // console.log(orderSess);
             let { order } = orderSess;
             let currentItem = order.OrderItems.filter(thisItem => thisItem.itemID == props.currentItem.ID);
             if (currentItem.length > 0){
-                console.log(currentItem);
+                // console.log(currentItem);
                 this.state.new = false;
             }
         }
@@ -60,7 +60,7 @@ class CartButton extends Component{
     }
 
     async removeItem(item){
-        console.log(this.props);
+        // console.log(this.props);
         let newQuan = this.state.quantity - 1;
         this.setState({quantity: newQuan});
         if(this.props.orderValues && this.props.user){
@@ -81,12 +81,12 @@ class CartButton extends Component{
     async addNewItemToOrder(item){
         debugger;
         let orderSess = localStorage.orderSession ? JSON.parse(localStorage.orderSession) : {};
-        console.log(orderSess);
+        // console.log(orderSess);
         let { order } = orderSess;
         let currentItem;
         if (order){
             currentItem = order.OrderItems.filter(thisItem => thisItem.itemID == item.ID);
-            console.log(currentItem);
+            // console.log(currentItem);
             const values  = {
                 order,
                 item,

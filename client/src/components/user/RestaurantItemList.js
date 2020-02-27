@@ -49,8 +49,8 @@ class RestaurantItemList extends Component {
     }
 
     render(){
-        console.log(this.props);
-        console.log(this.props.location.search);
+        // console.log(this.props);
+        // console.log(this.props.location.search);
 
         return(
             <div className="ui container">
