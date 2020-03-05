@@ -92,7 +92,7 @@ module.exports = app =>{
             const item = await RestaurantItems.findOne({where: {ID: itemToUpdate.ID}}).catch(errHandler);
             const updStat = await item.update(update).catch(errHandler);
             console.log(item.dataValues.name);
-            debugger;
+            // debugger;
             
             // const updatedItem = await RestaurantItems.findByIdAndUpdate( itemToUpdate._id, update, {new: true});
             // await restaurantItem.save();

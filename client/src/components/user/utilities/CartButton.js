@@ -79,7 +79,7 @@ class CartButton extends Component{
         }
     }
     async addNewItemToOrder(item){
-        debugger;
+        // debugger;
         let orderSess = localStorage.orderSession ? JSON.parse(localStorage.orderSession) : {};
         // console.log(orderSess);
         let { order } = orderSess;

@@ -19,7 +19,7 @@ class App extends Component{
         this.props.fetchUserRestaurants();
         let {order} = window.localStorage.orderSession ? JSON.parse(window.localStorage.orderSession) : {};
         console.log(order);
-        if(order.ID && !this.props.order.ID){
+        if(order && order.ID && !this.props.order.ID){
             this.props.fetchCurrentOrder(order.ID);
         }
     }
@@ -44,7 +44,6 @@ class App extends Component{
                 </BrowserRouter>
             </div>
         );
-
     }
 }
 function mapStateToProps(state){

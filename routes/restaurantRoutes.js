@@ -67,7 +67,7 @@ module.exports = app =>{
                     
                     console.log(updatedOItem);
 
-                    if(updatedOItem ==1){
+                    if(updatedOItem.length ==1){
                         let currentOrder  = await Order.findOne({where: {ID : order.ID}, include: [{model: OrderItems, as: "OrderItems"}]}).catch(errHandler);
                         console.log(currentOrder);
                         values['order'] = currentOrder;

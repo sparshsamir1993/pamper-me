@@ -16,6 +16,7 @@ export const addItemToOrder = (values, history) => async (dispatch) =>{
     if(res.data.order){
         localStorage.setItem("orderSession", response);
     }
+    debugger;
     dispatch({type:"FETCH_ORDER", payload: res.data.order});
     console.log("dispatched");
 }

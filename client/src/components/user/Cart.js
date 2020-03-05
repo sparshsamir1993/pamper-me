@@ -4,6 +4,18 @@ import CartButtons from './utilities/CartButton';
 
 class Cart extends Component{
 
+    constructor(props){
+        super(props);
+
+        this.state ={
+            grandTotal : 0
+        }
+    }
+    componentDidMount(){
+       
+        // debugger;
+        // this.setState({grandTotal});
+    }
     renderOrderItems(){
         const relativeStyle = {
             position: 'relative'
@@ -19,8 +31,11 @@ class Cart extends Component{
             // debugger;
             if(currItem.length){
                 return(
-                    <li className="collection-item" style={relativeStyle}>
+                    <li className="collection-item" key={currItem[0].ID} style={relativeStyle}>
                         <h3>{currItem[0].name}</h3>
+                        <p>
+                            {currItem[0].price} &nbsp; x &nbsp; {oItem.quantity} &nbsp; = &nbsp; {currItem[0].price * oItem.quantity}
+                        </p>
                         <div className="secondary-content" style={cartButtonPosition}>
                             
                             <CartButtons 
@@ -41,9 +56,13 @@ class Cart extends Component{
         if(this.props.orderItems && this.props.orderItems.length > 0){
                 return(
                     <div>
-                        <ul class="collection">
+                        <ul className="collection">
                             {this.renderOrderItems()}
                         </ul>
+                        <hr></hr>
+                        <div className="grand-total">
+                            <h5>Grand Total &nbsp; : &nbsp; {this.props.grandTotal.toFixed(2)}</h5>
+                        </div>
                     </div>         
                 );
         }
@@ -69,12 +88,22 @@ function mapStateToProps(state){
     if(!Object.keys(order).length){
         order = window.localStorage.orderSession ? JSON.parse(window.localStorage.orderSession).order : order
     }
+    let grandTotal = 0;
+    if(order.OrderItems && order.OrderItems.length && items.length){
+        
+        order.OrderItems.map( oItem => {
+            // debugger;
+            const {itemID, quantity} = oItem;
+            const item = items.filter( i => i.ID == itemID)[0];
+            grandTotal += item.price * quantity;
+        });    
+    }
     // let orderItems = order.orderItems;
-
     return{
         order,
         orderItems: order.OrderItems,
-        items
+        items,
+        grandTotal
     }
     
 }
