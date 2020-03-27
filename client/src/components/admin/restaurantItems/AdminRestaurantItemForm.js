@@ -5,10 +5,16 @@ import $ from "jquery";
 import { connect } from "react-redux";
 import AdminRestaurantField from "../restaurants/AdminRestaurantField";
 import { loadInitailItemFormValues } from "../../../actions";
+import * as constants from "../../../gConstants";
 
 class AdminRestaurantItemForm extends Component {
   render() {
-    const itemTypes = ["Appetizer", "Main Course", "Beverages", "Dessert"];
+    const itemTypes = [
+      constants.APPETIZERS,
+      constants.MAIN_COURSE,
+      constants.SIDES,
+      constants.DESSERT
+    ];
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.props.onNewItemSubmit)}>

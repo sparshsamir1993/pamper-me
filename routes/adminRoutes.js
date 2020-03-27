@@ -70,7 +70,7 @@ module.exports = app => {
       restaurantID: selectedRestaurant.ID,
       name: newItem.name,
       price: newItem.price,
-      itemType: newItem.type
+      itemType: newItem.itemType
     };
     try {
       const newItem = await RestaurantItems.create(restaurantItem).catch(
@@ -87,11 +87,11 @@ module.exports = app => {
     console.log("item values are");
     // console.log(req.body.values);
     const { itemToUpdate, selectedRestaurant } = req.body.values;
-
+    console.log("itemtoupdate is ", itemToUpdate);
     let update = {
       name: itemToUpdate.name,
       price: itemToUpdate.price,
-      itemType: itemToUpdate.type
+      itemType: itemToUpdate.itemType
     };
 
     try {
