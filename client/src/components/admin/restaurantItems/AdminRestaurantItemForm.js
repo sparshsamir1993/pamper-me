@@ -5,7 +5,7 @@ import $ from "jquery";
 import { connect } from "react-redux";
 import AdminRestaurantField from "../restaurants/AdminRestaurantField";
 import { loadInitailItemFormValues } from "../../../actions";
-import * as constants from "../../../gConstants";
+import * as constants from "../../../clientConstants";
 
 class AdminRestaurantItemForm extends Component {
   render() {

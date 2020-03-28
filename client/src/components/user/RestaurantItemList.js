@@ -8,12 +8,16 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-const { APPETIZERS, DESSERT, MAIN_COURSE, SIDES } = require("../../gConstants");
+const {
+  APPETIZERS,
+  DESSERT,
+  MAIN_COURSE,
+  SIDES
+} = require("../../clientConstants");
 const itemTypes = [APPETIZERS, MAIN_COURSE, SIDES, DESSERT];
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-  //   console.log(props);
   return (
     <Typography
       component="div"
@@ -118,8 +122,6 @@ class RestaurantItemList extends Component {
 }
 
 function mapStateToProps(state) {
-  // console.log(state);
-  // debugger;
   let order = state.order.length ? state.order : null;
   order =
     !order && localStorage.getItem("orderSession")
@@ -136,5 +138,4 @@ function mapStateToProps(state) {
     user: state.auth
   };
 }
-// const {fetchUserRestaurants} = actions;
 export default connect(mapStateToProps, actions)(RestaurantItemList);
