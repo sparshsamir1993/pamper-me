@@ -33,7 +33,7 @@ class Header extends Component {
       inDuration: 300,
       outDuration: 225,
       hover: true,
-      belowOrigin: true
+      coverTrigger: false
     };
     M.Dropdown.init(dropdowns, options);
   }
@@ -99,6 +99,14 @@ class Header extends Component {
     }
   }
   render() {
+    const dropdownStyle = {
+      position: "absolute",
+      borderRadius: "0px 0px 7px 7px",
+      right: "10px"
+    };
+    const drpElStyle = {
+      color: "red"
+    };
     return (
       <div>
         <nav className="">
@@ -115,23 +123,35 @@ class Header extends Component {
               </li>
               {this.checkIfAdmin()}
               {this.checkIfCartPresnt()}
+              {!this.props.auth && (
+                <li className="">
+                  <a href="/auth/google">Login with Google</a>
+                </li>
+              )}
               {this.props.auth && this.props.auth.ID && (
-                <li className="" key="2">
+                <li className="" key="2" style={{ position: "relative" }}>
                   <a
                     className="dropdown-trigger"
-                    href="#!"
                     data-target="user-dropdown"
                     onMouseEnter={this.initProfileDropdown}
                   >
                     Dropdown
                     <i className="material-icons right">arrow_drop_down</i>
                   </a>
-                  <ul id="user-dropdown" className="dropdown-content">
+                  <ul
+                    id="user-dropdown"
+                    className="dropdown-content"
+                    style={dropdownStyle}
+                  >
                     <li key="1" tabIndex="-1">
-                      Profile
+                      <Link to={"/profile"} style={drpElStyle}>
+                        Profile
+                      </Link>
                     </li>
                     <li className="" key="2">
-                      <a href="/api/logout">Logout</a>
+                      <a href="/api/logout" style={drpElStyle}>
+                        Logout
+                      </a>
                     </li>
                   </ul>
                 </li>

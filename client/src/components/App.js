@@ -13,6 +13,9 @@ import RestaurantItemList from "./user/RestaurantItemList";
 import Cart from "./user/Cart";
 import Header from "./Header";
 import * as actions from "../actions";
+import UserProfile from "./user/profile/UserProfile";
+import ManageAddress from "./user/profile/ManageAddress";
+import AddressNew from "./user/address/AddressNew";
 class App extends Component {
   componentDidMount() {
     this.props.fetchUser();
@@ -60,6 +63,9 @@ class App extends Component {
                 path="/restaurants/:restaurantId/items"
                 component={RestaurantItemList}
               />
+              <Route exact path="/profile" component={UserProfile} />
+              <Route exact path="/manageAddress" component={ManageAddress} />
+              <Route exact path="/addressNew" component={AddressNew} />
             </div>
           </div>
         </BrowserRouter>
