@@ -1,9 +1,12 @@
-.brand-logo{
-    margin-left: 10px;
+.brand-logo {
+  margin-left: 10px;
 }
-.container{
-    margin-top: 50px;
+.container {
+  margin-top: 50px;
 }
-select{
-    display: block;
+select {
+  display: block;
+}
+.location-search-input {
+  color: red;
 }

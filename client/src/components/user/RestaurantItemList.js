@@ -36,7 +36,7 @@ function RenderTabPanels(value, componentThis) {
   console.log("value", value);
   return itemTypes.map((item, idx) => {
     return (
-      <TabPanel value={value} index={idx}>
+      <TabPanel value={value} index={idx} key={idx}>
         {componentThis.renderList(item)}
       </TabPanel>
     );
@@ -44,7 +44,7 @@ function RenderTabPanels(value, componentThis) {
 }
 
 function RenderTabHeads() {
-  return itemTypes.map((item, idx) => <Tab label={item} />);
+  return itemTypes.map((item, idx) => <Tab key={idx} label={item} />);
 }
 
 function SimpleTabs(props) {

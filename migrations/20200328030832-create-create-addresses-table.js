@@ -11,10 +11,10 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      address1: {
+      buildingNumber: {
         type: Sequelize.STRING
       },
-      address2: {
+      street: {
         type: Sequelize.STRING
       },
       city: {
@@ -23,7 +23,7 @@ module.exports = {
       country: {
         type: Sequelize.STRING
       },
-      postal_code: {
+      postalCode: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -32,6 +32,12 @@ module.exports = {
       },
       userID: {
         type: Sequelize.INTEGER(11)
+      },
+      directions: {
+        type: Sequelize.STRING
+      },
+      detailedAddress: {
+        type: Sequelize.STRING
       },
       updatedAt: {
         allowNull: false,

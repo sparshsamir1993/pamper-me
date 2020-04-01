@@ -10,3 +10,8 @@ export const fetchUserAddresses = () => async dispatch => {
   const res = await axios.get("/api/user/addresses");
   dispatch({ type: "FETCH_ADDRESSES", payload: res.data });
 };
+
+export const addUserAddress = addressData => async dispatch => {
+  const res = await axios.post("/api/user/addresses", addressData);
+  console.log("result is", res);
+};

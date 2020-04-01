@@ -9,9 +9,13 @@ module.exports = sequelize.define("Addresses", {
     type: Sequelize.INTEGER
   },
   name: Sequelize.STRING,
-  address1: Sequelize.STRING,
-  address2: Sequelize.STRING,
+  buildingNumber: Sequelize.STRING,
+  street: Sequelize.STRING,
   city: Sequelize.STRING,
   country: Sequelize.STRING,
-  postal_code: Sequelize.STRING
+  postal_code: Sequelize.STRING,
+  createdAt: Sequelize.DATE,
+  updatedAt: Sequelize.DATE,
+  directions: Sequelize.STRING,
+  detailedAddress: Sequelize.STRING
 });

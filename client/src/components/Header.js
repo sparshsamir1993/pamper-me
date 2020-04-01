@@ -82,7 +82,7 @@ class Header extends Component {
       // debugger;
       const { order } = JSON.parse(window.localStorage.orderSession);
       if (order) {
-        console.log("cart called");
+        // console.log("cart called");
         return (
           <li key="cart">
             <Link to="/cart" className="ui label">
