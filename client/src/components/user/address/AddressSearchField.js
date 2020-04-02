@@ -3,7 +3,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
 } from "react-places-autocomplete";
-import "../../../styles/main.css";
+import "../../../styles/main.scss";
 class AddressSearchField extends React.Component {
   constructor(props) {
     super(props);

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import AddressSearchField from "./AddressSearchField";
+import "../../../styles/main.scss";
 
 class AddressForm extends Component {
   render() {
@@ -10,8 +11,11 @@ class AddressForm extends Component {
         <Field name="addressName" component="input" />
         <Field name="userAddress" component={AddressSearchField} />
         <label>Additional Details</label>
-        <Field name="additonalDirections" component="textarea" />
-        <button className="teal btn-flat right white-text" type="submit">
+        <Field name="additionalDirections" component="textarea" />
+        <button
+          className="btn-flat right white-text submit-button"
+          type="submit"
+        >
           <i className="material-icons right">done</i>
         </button>
       </form>

@@ -7,37 +7,47 @@ class ManageAddress extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      addresses: []
+      addresses: [],
+      user: {}
     };
   }
   async componentDidMount() {
-    await this.props.fetchUserAddresses();
+    console.log(this.props);
+    if (!(this.props.user && this.props.user.ID)) {
+      this.props.history.goBack();
+    }
+    await this.props.fetchUserAddresses(this.props.user.ID);
     this.setState({ addresses: this.props.addresses });
+  }
+  renderAddressList() {
+    if (
+      this.props.user &&
+      this.props.addresses &&
+      this.props.addresses.length > 0
+    ) {
+      return <div> hohohohohohoho</div>;
+    }
   }
   render() {
     return (
       <div className="container">
         <Link
-          class="btn-floating btn-large waves-effect waves-light red right"
+          className="btn-floating btn-large waves-effect waves-light red right"
           to="/addressNew"
         >
-          <i class="material-icons">add</i>
+          <i className="material-icons">add</i>
         </Link>
-        {!this.state.addresses.length && (
-          <h4>You dont have any addresses saved</h4>
-        )}
-        {this.state.addresses.length > 0 && (
-          <div className="row">
-            <div className="col s3">Sparsh</div>
-          </div>
-        )}
+        {this.renderAddressList()}
       </div>
     );
   }
 }
 function mapStateToProps(state) {
+  console.log(state);
   return {
-    addresses: state.addresses
+    addresses: state.addresses,
+    user: state.auth
   };
 }
+
 export default connect(mapStateToProps, actions)(ManageAddress);

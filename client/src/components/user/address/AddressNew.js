@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import AddressForm from "./AddressForm";
 import { connect } from "react-redux";
 import { geocodeByAddress } from "react-places-autocomplete";
-
+import * as actions from "../../../actions";
+import { CANADA } from "../../../clientConstants";
+import "../../../styles/main.scss";
 class AddressNew extends Component {
   constructor(props) {
     super(props);
@@ -39,6 +41,9 @@ class AddressNew extends Component {
       if (types.includes("administrative_area_level_1")) {
         details.province = long_name;
       }
+      if (types.includes("country")) {
+        details.country = long_name;
+      }
       if (types.includes("postal_code")) {
         details.postalCode = long_name;
       }
@@ -51,9 +56,20 @@ class AddressNew extends Component {
       });
       return;
     }
+    if (details.country.toLowerCase() !== CANADA.toLowerCase()) {
+      this.setState({
+        isError: true,
+        errorMessage: "Sorry, we do not serve in your area."
+      });
+      return;
+    }
     details.name = addressValues.values.addressName;
+    details.additionalDirections = addressValues.values.additionalDirections
+      ? addressValues.values.additionalDirections
+      : "";
+    details.userID = this.props.user.ID;
     console.log(details);
-    // this.props.addUserAddress();
+    this.props.addUserAddress(details);
   }
 
   render() {
@@ -73,11 +89,13 @@ class AddressNew extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log(state);
   return {
     formValues:
       state.form.userAddressForm && state.form.userAddressForm.value
-        ? state.form.userAddressForm.value
-        : state.form.userAddressForm
+        ? state.form.userAddressForm.values
+        : state.form.userAddressForm,
+    user: state.auth
   };
 }
-export default connect(mapStateToProps)(AddressNew);
+export default connect(mapStateToProps, actions)(AddressNew);
