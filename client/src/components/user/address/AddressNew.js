@@ -11,12 +11,20 @@ class AddressNew extends Component {
 
     this.state = {
       isError: false,
-      errorMessage: ""
+      errorMessage: "",
+      currentAddress: ""
     };
+  }
+
+  componentDidMount() {
+    if (this.props.location.state && this.props.location.state.currentAddress) {
+      let { currentAddress } = this.props.location.state;
+      this.setState({ currentAddress });
+    }
   }
   async processAddressFromData(addressValues) {
     console.log(addressValues);
-    const result = await geocodeByAddress(addressValues.values.userAddress);
+    const result = await geocodeByAddress(addressValues.values.detailedAddress);
     console.log(result);
     const addressComponents = result[0].address_components;
     let details = {};
@@ -63,28 +71,58 @@ class AddressNew extends Component {
       });
       return;
     }
-    details.name = addressValues.values.addressName;
+    details.name = addressValues.values.name;
     details.additionalDirections = addressValues.values.additionalDirections
       ? addressValues.values.additionalDirections
       : "";
     details.userID = this.props.user.ID;
     console.log(details);
-    this.props.addUserAddress(details);
+    return details;
+    // this.saveAddress(details);
   }
 
-  render() {
-    return (
-      <div>
-        {this.state.isError && (
-          <div className="error-class">{this.state.errorMessage}</div>
-        )}
+  async saveAddress(addressValues) {
+    debugger;
+    const details = await this.processAddressFromData(addressValues);
+    await this.props.addUserAddress(details);
+  }
+
+  async editAddress(addressValues) {
+    debugger;
+    const details = await this.processAddressFromData(addressValues);
+    await this.props.editUserAddress(details);
+  }
+  renderForms() {
+    if (this.state.currentAddress) {
+      return (
         <AddressForm
-          processAddress={() =>
-            this.processAddressFromData(this.props.formValues)
-          }
-        />
-      </div>
-    );
+          initialValues={this.state.currentAddress}
+          processAddress={() => this.editAddress(this.props.formValues)}
+        ></AddressForm>
+      );
+    } else {
+      return (
+        <AddressForm
+          processAddress={() => this.saveAddress(this.props.formValues)}
+        ></AddressForm>
+      );
+    }
+  }
+  render() {
+    const iniVals = {};
+    if (this.state.currentAddress) {
+      console.log(this.state.currentAddress);
+      const {
+        name,
+        detailedAddress,
+        additionalDirections
+      } = this.state.currentAddress;
+      iniVals.addressName = name;
+      iniVals.autocompleteSearchAddress = detailedAddress;
+      iniVals.additionalDirections = additionalDirections;
+    }
+
+    return <div>{this.renderForms()}</div>;
   }
 }
 

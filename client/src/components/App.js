@@ -8,14 +8,15 @@ import AdminRestaurantList from "./admin/restaurants/AdminRestaurantList";
 import AdminRestaurantNew from "./admin/restaurants/AdminRestaurantNew";
 import AdminRestaurantItemList from "./admin/restaurantItems/AdminRestaurantItemsList";
 import AdminRestaurantItemNew from "./admin/restaurantItems/AdminRestaurantItemsNew";
+import UserProfile from "./user/profile/UserProfile";
+import ManageAddress from "./user/profile/ManageAddress";
+import AddressNew from "./user/address/AddressNew";
+
 import RestaurantList from "./user/RestaurantList";
 import RestaurantItemList from "./user/RestaurantItemList";
 import Cart from "./user/Cart";
 import Header from "./Header";
 import * as actions from "../actions";
-import UserProfile from "./user/profile/UserProfile";
-import ManageAddress from "./user/profile/ManageAddress";
-import AddressNew from "./user/address/AddressNew";
 class App extends Component {
   componentDidMount() {
     this.props.fetchUser();

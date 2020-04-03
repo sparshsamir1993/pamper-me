@@ -2,16 +2,32 @@ import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import AddressSearchField from "./AddressSearchField";
 import "../../../styles/main.scss";
+import { connect } from "mongoose";
 
 class AddressForm extends Component {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit(this.props.processAddress)}>
         <label>Give a nickname to your address</label>
-        <Field name="addressName" component="input" />
-        <Field name="userAddress" component={AddressSearchField} />
+        <Field key="name" name="name" component="input" type="text" />
+        <Field
+          key="detailedAddress"
+          name="detailedAddress"
+          component={AddressSearchField}
+          type="text"
+          {...{
+            initialValue: this.props.initialValues
+              ? this.props.initialValues.detailedAddress
+              : ""
+          }}
+        />
         <label>Additional Details</label>
-        <Field name="additionalDirections" component="textarea" />
+        <Field
+          key="additionalDirections"
+          name="additionalDirections"
+          component="textarea"
+          type="text"
+        />
         <button
           className="btn-flat right white-text submit-button"
           type="submit"
@@ -22,7 +38,11 @@ class AddressForm extends Component {
     );
   }
 }
-
-export default reduxForm({
-  form: "userAddressForm"
+AddressForm = reduxForm({
+  form: "userAddressForm",
+  enableReinitialize: true
 })(AddressForm);
+
+// AddressForm = connect(state=>({initialValues: }))
+
+export default AddressForm;

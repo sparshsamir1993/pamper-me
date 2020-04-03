@@ -19,3 +19,9 @@ export const addUserAddress = addressData => async dispatch => {
   const res = await axios.post("/api/user/addresses", addressData);
   console.log("result is", res);
 };
+
+export const editUserAddress = addressData => async dispatch => {
+  console.log(addressData);
+  // const res = await axios.post("/api/user/addresses", addressData);
+  // console.log("result is", res);
+};

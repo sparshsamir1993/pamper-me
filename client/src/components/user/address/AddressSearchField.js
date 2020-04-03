@@ -7,13 +7,19 @@ import "../../../styles/main.scss";
 class AddressSearchField extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { address: "" };
+    console.log(props);
+    this.state = {
+      address: "",
+      currentAddress: this.props.initialValue ? this.props.initialValue : ""
+    };
   }
 
   handleChange = address => {
     this.setState({ address });
   };
-
+  componentDidMount() {
+    console.log(this.props);
+  }
   handleSelect = address => {
     this.setState({ address });
     const { input } = this.props;
@@ -31,9 +37,12 @@ class AddressSearchField extends React.Component {
     const searchOptions = {
       types: ["address"]
     };
+    // if (this.props.initialValue) {
+    //   this.setState({ currentAddress: this.props.initialValue });
+    // }
     return (
       <PlacesAutocomplete
-        value={this.state.address}
+        value={this.props.initialValue}
         onChange={this.handleChange}
         onSelect={this.handleSelect}
         onError={this.showError}
@@ -44,9 +53,11 @@ class AddressSearchField extends React.Component {
           <div>
             <label>Address</label>
             <input
+              value={this.props.initialValue}
               {...getInputProps({
                 placeholder: "Search Places ...",
-                className: "location-search-input"
+                className: "location-search-input",
+                name: "detailedAddress"
               })}
             />
             <div className="autocomplete-dropdown-container">
