@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import * as actions from "../../../actions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import M from "materialize-css";
 
 class ManageAddress extends Component {
   _isMounted = false;
@@ -9,7 +10,7 @@ class ManageAddress extends Component {
     super(props);
     this.state = {
       addresses: [],
-      user: {}
+      user: {},
     };
   }
   async componentDidMount() {
@@ -28,25 +29,28 @@ class ManageAddress extends Component {
     this._isMounted = false;
   }
 
-  editAddress = ID => {
-    console.log(ID);
-  };
-  deleteAddress = ID => {
-    console.log("delete", ID);
+  deleteAddress = async (ID) => {
+    await this.props.deleteAddress(ID);
   };
   renderAddressList() {
     const addressCardStyle = {
-      height: "130px"
+      height: "130px",
     };
     if (
       this.props.user &&
       this.props.addresses &&
       this.props.addresses.length > 0
     ) {
+      // debugger;
       const { addresses } = this.props;
-      return addresses.map(address => {
+      return addresses.map((address, idx) => {
+        let modal = document.getElementById(`modal${idx}`);
+        let options = {
+          onCloseStart: () => this.deleteAddress(address.ID),
+        };
+        M.Modal.init(modal, options);
         return (
-          <div key={address.ID} className="col s6">
+          <div className="col s6" key={idx}>
             <div className="card blue-grey darken-1">
               <div className="card-content white-text" style={addressCardStyle}>
                 <span className="card-title">{address.name}</span>
@@ -58,16 +62,34 @@ class ManageAddress extends Component {
                     this.props.history.push({
                       pathname: "/addressNew",
                       state: {
-                        currentAddress: address
-                      }
+                        currentAddress: address,
+                      },
                     })
                   }
                 >
                   <i className="material-icons">edit</i>
                 </a>
-                <a onClick={() => this.deleteAddress(address.ID)}>
+                <a
+                  className="modal-trigger"
+                  href={`#modal${idx}`}
+                  // onClick={() => this.deleteAddress(address.ID)}
+                >
                   <i className="material-icons">delete_forever</i>
                 </a>
+                <div id={`modal${idx}`} className="modal">
+                  <div className="modal-content">
+                    <h4>You sure?</h4>
+                    <p>Are you sure, you want to detele, {address.name}</p>
+                  </div>
+                  <div className="modal-footer">
+                    <a
+                      onClick={() => this.deleteAddress(address.ID)}
+                      className="modal-close"
+                    >
+                      Agree
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -93,7 +115,7 @@ function mapStateToProps(state) {
   console.log(state);
   return {
     addresses: state.addresses,
-    user: state.auth
+    user: state.auth,
   };
 }
 

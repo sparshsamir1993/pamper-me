@@ -1,7 +1,7 @@
 import React from "react";
 import PlacesAutocomplete, {
   geocodeByAddress,
-  getLatLng
+  getLatLng,
 } from "react-places-autocomplete";
 import "../../../styles/main.scss";
 class AddressSearchField extends React.Component {
@@ -10,39 +10,38 @@ class AddressSearchField extends React.Component {
     console.log(props);
     this.state = {
       address: "",
-      currentAddress: this.props.initialValue ? this.props.initialValue : ""
+      currentAddress: this.props.initialValue ? this.props.initialValue : "",
     };
   }
 
-  handleChange = address => {
+  handleChange = (address) => {
     this.setState({ address });
   };
   componentDidMount() {
     console.log(this.props);
   }
-  handleSelect = address => {
+  handleSelect = (address) => {
     this.setState({ address });
     const { input } = this.props;
     const { onChange } = input;
     onChange(address);
     geocodeByAddress(address)
-      .then(results => getLatLng(results[0]))
-      .then(latLng => console.log("Success", latLng))
-      .catch(error => console.error("Error", error));
+      .then((results) => getLatLng(results[0]))
+      .then((latLng) => console.log("Success", latLng))
+      .catch((error) => console.error("Error", error));
   };
-  showError = error => {
+  showError = (error) => {
     console.log(error);
   };
   render() {
     const searchOptions = {
-      types: ["address"]
+      types: ["address"],
     };
-    // if (this.props.initialValue) {
-    //   this.setState({ currentAddress: this.props.initialValue });
-    // }
     return (
       <PlacesAutocomplete
-        value={this.props.initialValue}
+        value={
+          this.props.initialValue ? this.props.initialValue : this.state.address
+        }
         onChange={this.handleChange}
         onSelect={this.handleSelect}
         onError={this.showError}
@@ -53,16 +52,15 @@ class AddressSearchField extends React.Component {
           <div>
             <label>Address</label>
             <input
-              value={this.props.initialValue}
               {...getInputProps({
                 placeholder: "Search Places ...",
                 className: "location-search-input",
-                name: "detailedAddress"
+                name: "detailedAddress",
               })}
             />
             <div className="autocomplete-dropdown-container">
               {loading && <div>Loading...</div>}
-              {suggestions.map(suggestion => {
+              {suggestions.map((suggestion) => {
                 // console.log(suggestion);
                 const className = suggestion.active
                   ? "suggestion-item--active"
@@ -75,7 +73,7 @@ class AddressSearchField extends React.Component {
                   <div
                     {...getSuggestionItemProps(suggestion, {
                       className,
-                      style
+                      style,
                     })}
                   >
                     <span>{suggestion.description}</span>

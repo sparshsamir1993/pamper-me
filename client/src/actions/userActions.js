@@ -16,9 +16,10 @@ export const fetchUserAddresses = (ID) => async (dispatch) => {
   dispatch({ type: "FETCH_ADDRESSES", payload: res.data });
 };
 
-export const addUserAddress = (addressData) => async (dispatch) => {
+export const addUserAddress = (addressData, history) => async (dispatch) => {
   const res = await axios.post("/api/user/addresses", addressData);
   console.log("result is", res);
+  history.goBack();
 };
 
 export const editUserAddress = (addressData, history) => async (dispatch) => {
@@ -27,9 +28,21 @@ export const editUserAddress = (addressData, history) => async (dispatch) => {
   // console.log("result is", res);
   const res = await axios.put("/api/user/addresses", addressData);
   if (res.data[0] == 1) {
-    dispatch({ type: "FETCH_ADDRESSES", payload: addressData });
+    dispatch({ type: "FETCH_EDITED_ADDRESSES", payload: addressData });
     history.goBack();
   }
-  // return;
-  console.log("result is edited \n", res);
+};
+
+export const deleteAddress = (addressID) => async (dispatch) => {
+  console.log(addressID);
+  const res = await axios.delete("api/user/addresses", {
+    params: { addressID },
+  });
+  console.log(res);
+  if (res.data == "OK") {
+    dispatch({
+      type: "FETCH_ADDRESSES_AFTER_DELETE",
+      payload: { deleted: addressID },
+    });
+  }
 };

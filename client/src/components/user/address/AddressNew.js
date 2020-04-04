@@ -85,7 +85,7 @@ class AddressNew extends Component {
   async saveAddress(addressValues) {
     // debugger;
     const details = await this.processAddressFromData(addressValues);
-    await this.props.addUserAddress(details);
+    await this.props.addUserAddress(details, this.props.history);
   }
 
   async editAddress(addressValues) {
