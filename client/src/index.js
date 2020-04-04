@@ -1,23 +1,26 @@
-import React from  'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose  } from 'redux';
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import App from "./components/App";
-import reducers from './reducers';
-import ReduxThunk from 'redux-thunk';
-import axios from 'axios';
+import reducers from "./reducers";
+import ReduxThunk from "redux-thunk";
+import axios from "axios";
+import "./styles/main.scss";
 window.axios = axios;
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(reducers, {}, composeEnhancers(applyMiddleware(ReduxThunk)));
-
-
+const store = createStore(
+  reducers,
+  {},
+  composeEnhancers(applyMiddleware(ReduxThunk))
+);
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App/>
-    </Provider>, 
-    document.querySelector('#root')
-); 
+  <Provider store={store}>
+    <App className="app-background" />
+  </Provider>,
+  document.querySelector("#root")
+);

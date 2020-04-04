@@ -12,7 +12,7 @@ class AddressNew extends Component {
     this.state = {
       isError: false,
       errorMessage: "",
-      currentAddress: ""
+      currentAddress: "",
     };
   }
 
@@ -29,7 +29,7 @@ class AddressNew extends Component {
     const addressComponents = result[0].address_components;
     let details = {};
 
-    addressComponents.map(component => {
+    addressComponents.map((component) => {
       this.setState({ isError: false });
       const { types, long_name } = component;
       if (types.includes("street_number")) {
@@ -60,14 +60,14 @@ class AddressNew extends Component {
     if (!details.buildingNumber) {
       this.setState({
         isError: true,
-        errorMessage: "No apartment number. Check if address is correct."
+        errorMessage: "No apartment number. Check if address is correct.",
       });
       return;
     }
     if (details.country.toLowerCase() !== CANADA.toLowerCase()) {
       this.setState({
         isError: true,
-        errorMessage: "Sorry, we do not serve in your area."
+        errorMessage: "Sorry, we do not serve in your area.",
       });
       return;
     }
@@ -76,21 +76,24 @@ class AddressNew extends Component {
       ? addressValues.values.additionalDirections
       : "";
     details.userID = this.props.user.ID;
+    details.addressID = addressValues.values.ID;
     console.log(details);
     return details;
     // this.saveAddress(details);
   }
 
   async saveAddress(addressValues) {
-    debugger;
+    // debugger;
     const details = await this.processAddressFromData(addressValues);
     await this.props.addUserAddress(details);
   }
 
   async editAddress(addressValues) {
-    debugger;
-    const details = await this.processAddressFromData(addressValues);
-    await this.props.editUserAddress(details);
+    // debugger;
+    let details = await this.processAddressFromData(addressValues);
+    // details = { ...details, userID: this.props.user.ID };
+    console.log(details);
+    await this.props.editUserAddress(details, this.props.history);
   }
   renderForms() {
     if (this.state.currentAddress) {
@@ -115,7 +118,7 @@ class AddressNew extends Component {
       const {
         name,
         detailedAddress,
-        additionalDirections
+        additionalDirections,
       } = this.state.currentAddress;
       iniVals.addressName = name;
       iniVals.autocompleteSearchAddress = detailedAddress;
@@ -133,7 +136,7 @@ function mapStateToProps(state) {
       state.form.userAddressForm && state.form.userAddressForm.value
         ? state.form.userAddressForm.values
         : state.form.userAddressForm,
-    user: state.auth
+    user: state.auth,
   };
 }
 export default connect(mapStateToProps, actions)(AddressNew);

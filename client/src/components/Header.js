@@ -7,6 +7,8 @@ import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import _ from "lodash";
 import M from "materialize-css";
+import "../styles/main.scss";
+import { DARK_SIENNA } from "../clientConstants";
 
 class Header extends Component {
   constructor(props) {
@@ -17,7 +19,7 @@ class Header extends Component {
     // console.log(order);
     this.state = {
       order,
-      numberOfItems: !_.isEmpty(order) ? order.OrderItems.length : 0
+      numberOfItems: !_.isEmpty(order) ? order.OrderItems.length : 0,
     };
     console.log(this.state.numberOfItems);
   }
@@ -33,7 +35,7 @@ class Header extends Component {
       inDuration: 300,
       outDuration: 225,
       hover: true,
-      coverTrigger: false
+      coverTrigger: false,
     };
     M.Dropdown.init(dropdowns, options);
   }
@@ -102,14 +104,14 @@ class Header extends Component {
     const dropdownStyle = {
       position: "absolute",
       borderRadius: "0px 0px 7px 7px",
-      right: "10px"
+      right: "10px",
     };
     const drpElStyle = {
-      color: "red"
+      color: DARK_SIENNA,
     };
     return (
       <div>
-        <nav className="">
+        <nav className="my-nav">
           <div className="nav-wrapper ">
             <Link
               to={this.props.auth ? "/restaurants" : "/"}
