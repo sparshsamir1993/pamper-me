@@ -19,6 +19,8 @@ class AddressNew extends Component {
   componentDidMount() {
     if (this.props.location.state && this.props.location.state.currentAddress) {
       let { currentAddress } = this.props.location.state;
+      // debugger;
+      console.log(this.props);
       this.setState({ currentAddress });
     }
   }
@@ -104,7 +106,7 @@ class AddressNew extends Component {
     const details = await this.processAddressFromData(addressValues);
     const { values } = addressValues;
     await this.processDefaultAddress(values);
-    // await this.props.addUserAddress(details, this.props.history);
+    await this.props.addUserAddress(details, this.props.history);
   }
 
   async editAddress(addressValues) {
@@ -117,7 +119,7 @@ class AddressNew extends Component {
     await this.processDefaultAddress(values);
 
     console.log(details);
-    // await this.props.editUserAddress(details, this.props.history);
+    await this.props.editUserAddress(details, this.props.history);
   }
   renderForms() {
     if (this.state.currentAddress) {

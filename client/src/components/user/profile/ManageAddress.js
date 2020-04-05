@@ -50,6 +50,9 @@ class ManageAddress extends Component {
           onCloseStart: () => this.deleteAddress(address.ID),
         };
         M.Modal.init(modal, options);
+        if (this.props.user.currentAddress == address.ID) {
+          address = { ...address, defaultAddress: true };
+        }
         return (
           <div className="col s6" key={idx}>
             <div className="card blue-grey darken-1">
@@ -101,6 +104,7 @@ class ManageAddress extends Component {
   render() {
     return (
       <div className="container">
+        <h3>Manage your saved addresses</h3>
         <Link
           className="btn-floating btn-large waves-effect waves-light red"
           to="/addressNew"

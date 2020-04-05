@@ -36,6 +36,7 @@ class AddressForm extends Component {
               id="defaultAddress"
               component="input"
               type="checkbox"
+              className="filled-in"
             />
           </div>
         </div>
