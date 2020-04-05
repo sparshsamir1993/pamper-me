@@ -3,22 +3,119 @@ const Users = require("../models/Users");
 
 Users.hasMany(Addresses, {
   as: "Addresses",
-  foreignKey: "userID"
+  foreignKey: "userID",
 });
 
 Addresses.belongsTo(Users, {
   as: "User",
-  foreignKey: "userID"
+  foreignKey: "userID",
 });
-const errHandler = err => {
+const errHandler = (err) => {
   console.log("Error :: " + err);
 };
 
-module.exports = app => {
+module.exports = (app) => {
   app.get("/api/user/addresses", async (req, res) => {
+    console.log(req.query.userID);
     const addresses = await Addresses.findAll({
-      where: { userID: req.body }
+      where: { userID: req.query.userID },
     }).catch(errHandler);
     res.status(200).send(addresses);
+  });
+
+  app.post("/api/user/addresses", async (req, res) => {
+    console.log(req.body);
+    const {
+      name,
+      buildingNumber,
+      street,
+      city,
+      province,
+      country,
+      postalCode,
+      detailedAddress,
+      additionalDirections,
+      userID,
+    } = req.body;
+    const newAddressData = {
+      name,
+      buildingNumber,
+      street,
+      city,
+      province,
+      country,
+      postalCode,
+      detailedAddress,
+      additionalDirections,
+      userID,
+    };
+    try {
+      const newAddress = await Addresses.create(newAddressData).catch(
+        errHandler
+      );
+      console.log(newAddress);
+      res.status(200).send(newAddress);
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
+  });
+  app.put("/api/user/addresses", async (req, res) => {
+    console.log(req.body);
+    const {
+      name,
+      buildingNumber,
+      street,
+      city,
+      province,
+      country,
+      postalCode,
+      detailedAddress,
+      additionalDirections,
+      userID,
+      addressID,
+    } = req.body;
+    const newAddressData = {
+      name,
+      buildingNumber,
+      street,
+      city,
+      province,
+      country,
+      postalCode,
+      detailedAddress,
+      additionalDirections,
+      userID,
+    };
+    try {
+      const updatedAddress = await Addresses.update(newAddressData, {
+        where: { ID: addressID },
+      }).catch(errHandler);
+      console.log(updatedAddress);
+      res.status(200).json(updatedAddress);
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
+  });
+
+  app.delete("/api/user/addresses", async (req, res) => {
+    const { addressID } = req.query;
+    const result = await Addresses.destroy({ where: { ID: addressID } });
+    res.status(200).send(result);
+  });
+
+  app.put("/api/user", async (req, res) => {
+    const { userID, addressID } = req.body;
+    try {
+      const result = await Users.update(
+        { currentAddress: addressID },
+        { where: { ID: userID } }
+      );
+      res.status(200).send(result);
+    } catch (err) {
+      console.log(err);
+      res.status(500);
+    }
   });
 };

@@ -79,21 +79,45 @@ class AddressNew extends Component {
     details.addressID = addressValues.values.ID;
     console.log(details);
     return details;
-    // this.saveAddress(details);
+  }
+
+  async processDefaultAddress(formValues) {
+    // debugger;
+    const { user } = this.props;
+    const { defaultAddress, ID } = formValues;
+    if (defaultAddress) {
+      if (ID && ID == user.currentAddress) {
+      } else if (ID && ID != user.currentAddress) {
+        await this.props.updateUserCurrentAddress(ID, user.ID);
+      } else if (!ID) {
+        console.log("is is new address form");
+      }
+    } else {
+      if (ID && ID == user.currentAddress) {
+        await this.props.updateUserCurrentAddress(null, user.ID);
+      }
+    }
   }
 
   async saveAddress(addressValues) {
     // debugger;
     const details = await this.processAddressFromData(addressValues);
-    await this.props.addUserAddress(details, this.props.history);
+    const { values } = addressValues;
+    await this.processDefaultAddress(values);
+    // await this.props.addUserAddress(details, this.props.history);
   }
 
   async editAddress(addressValues) {
     // debugger;
+    console.log(addressValues);
     let details = await this.processAddressFromData(addressValues);
+    const { values } = addressValues;
+
     // details = { ...details, userID: this.props.user.ID };
+    await this.processDefaultAddress(values);
+
     console.log(details);
-    await this.props.editUserAddress(details, this.props.history);
+    // await this.props.editUserAddress(details, this.props.history);
   }
   renderForms() {
     if (this.state.currentAddress) {

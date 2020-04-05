@@ -20,24 +20,28 @@ module.exports = {
       city: {
         type: Sequelize.STRING
       },
+      province: {
+        type: Sequelize.STRING
+      },
       country: {
         type: Sequelize.STRING
       },
       postalCode: {
         type: Sequelize.STRING
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      userID: {
-        type: Sequelize.INTEGER(11)
-      },
-      directions: {
+
+      additionalDirections: {
         type: Sequelize.STRING
       },
       detailedAddress: {
         type: Sequelize.STRING
+      },
+      userID: {
+        type: Sequelize.INTEGER(11)
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,

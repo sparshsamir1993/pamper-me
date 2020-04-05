@@ -5,25 +5,28 @@ module.exports = sequelize.define("Users", {
     type: Sequelize.INTEGER(11),
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   name: {
-    type: Sequelize.STRING(200)
+    type: Sequelize.STRING(200),
   },
   email: {
     type: Sequelize.STRING(100),
-    allowNull: false
+    allowNull: false,
   },
   password: {
-    type: Sequelize.STRING(100)
+    type: Sequelize.STRING(100),
   },
   googleID: {
-    type: Sequelize.STRING(100)
+    type: Sequelize.STRING(100),
   },
   is_admin: {
     type: Sequelize.BOOLEAN,
-    defaultValue: false
+    defaultValue: false,
+  },
+  currentAddress: {
+    type: Sequelize.INTEGER(11),
   },
   createdAt: Sequelize.DATE,
-  updatedAt: Sequelize.DATE
+  updatedAt: Sequelize.DATE,
 });

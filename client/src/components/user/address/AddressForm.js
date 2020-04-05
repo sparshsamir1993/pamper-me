@@ -18,7 +18,7 @@ class AddressForm extends Component {
           {...{
             initialValue: this.props.initialValues
               ? this.props.initialValues.detailedAddress
-              : ""
+              : "",
           }}
         />
         <label>Additional Details</label>
@@ -28,6 +28,17 @@ class AddressForm extends Component {
           component="textarea"
           type="text"
         />
+        <div>
+          <label htmlFor="defaultAddress">Default Address</label>
+          <div>
+            <Field
+              name="defaultAddress"
+              id="defaultAddress"
+              component="input"
+              type="checkbox"
+            />
+          </div>
+        </div>
         <button
           className="btn-flat right white-text submit-button"
           type="submit"
@@ -40,7 +51,7 @@ class AddressForm extends Component {
 }
 AddressForm = reduxForm({
   form: "userAddressForm",
-  enableReinitialize: true
+  enableReinitialize: true,
 })(AddressForm);
 
 // AddressForm = connect(state=>({initialValues: }))

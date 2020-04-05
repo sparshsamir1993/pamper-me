@@ -8,11 +8,13 @@ export default function (state = [], action) {
         state = [...state, action.payload];
         return state || [];
       }
+      return state;
     case "FETCH_ADDRESSES_AFTER_DELETE":
       debugger;
       if (action.payload.deleted) {
         return state.filter((address) => address.ID !== action.payload.deleted);
       }
+      return state;
     default:
       return state;
   }

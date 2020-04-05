@@ -3,6 +3,7 @@ import * as actions from "../../../actions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import M from "materialize-css";
+import { Field } from "redux-form";
 
 class ManageAddress extends Component {
   _isMounted = false;

@@ -2,6 +2,7 @@
 .app-background {
   background-color: $main-background-color;
   min-height: 100vh;
+  padding-bottom: 50px;
 }
 .brand-logo {
   margin-left: 10px;
@@ -20,7 +21,7 @@ select {
   border-radius: 5px;
 }
 .character-counter {
-  display: none;
+  display: none !important;
 }
 
 .submit-button {
@@ -35,4 +36,12 @@ select {
   &:focus {
     background-color: $primary-button;
   }
+}
+.place-order-section {
+  margin-top: 30px;
+}
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  opacity: 1;
+  pointer-events: visible;
 }

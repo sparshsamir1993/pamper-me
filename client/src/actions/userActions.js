@@ -46,3 +46,17 @@ export const deleteAddress = (addressID) => async (dispatch) => {
     });
   }
 };
+
+export const updateUserCurrentAddress = (addressID, userID) => async (
+  dispatch
+) => {
+  console.log(addressID, userID);
+  const res = await axios.put("/api/user", { addressID, userID });
+  console.log(res);
+  if (res.data.length) {
+    dispatch({
+      type: "FETCH_USER_AFTER_CURRENT_ADDRESS_UPDATE",
+      payload: { addressID },
+    });
+  }
+};

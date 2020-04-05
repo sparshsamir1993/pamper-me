@@ -12,10 +12,11 @@ module.exports = sequelize.define("Addresses", {
   buildingNumber: Sequelize.STRING,
   street: Sequelize.STRING,
   city: Sequelize.STRING,
+  province: Sequelize.STRING,
   country: Sequelize.STRING,
-  postal_code: Sequelize.STRING,
+  postalCode: Sequelize.STRING,
+  additionalDirections: Sequelize.STRING,
+  detailedAddress: Sequelize.STRING,
   createdAt: Sequelize.DATE,
-  updatedAt: Sequelize.DATE,
-  directions: Sequelize.STRING,
-  detailedAddress: Sequelize.STRING
+  updatedAt: Sequelize.DATE
 });
