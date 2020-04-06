@@ -11,7 +11,7 @@ import AdminRestaurantItemNew from "./admin/restaurantItems/AdminRestaurantItems
 import UserProfile from "./user/profile/UserProfile";
 import ManageAddress from "./user/profile/ManageAddress";
 import AddressNew from "./user/address/AddressNew";
-
+import Checkout from "./order/checkout";
 import RestaurantList from "./user/RestaurantList";
 import RestaurantItemList from "./user/RestaurantItemList";
 import Cart from "./user/Cart";
@@ -59,6 +59,7 @@ class App extends Component {
               />
               <Route exact path="/restaurants" component={RestaurantList} />
               <Route exact path="/cart" component={Cart} />
+              <Route exact path="/checkout*" component={Checkout} />
               <Route
                 exact
                 path="/restaurants/:restaurantId/items"

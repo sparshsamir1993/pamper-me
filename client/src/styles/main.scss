@@ -45,3 +45,6 @@ select {
   opacity: 1;
   pointer-events: visible;
 }
+.tabs .tab a {
+  color: $primary-color;
+}

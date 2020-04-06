@@ -5,14 +5,13 @@ import { fetchUserAddresses } from "../../actions";
 class Cart extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      grandTotal: 0,
-    };
   }
   async componentDidMount() {
     // debugger;
     // this.setState({grandTotal});
+    if (!this.props.auth.ID) {
+      this.props.history.goBack();
+    }
     await this.props.fetchUserAddresses(this.props.auth.ID);
   }
   renderOrderItems() {
@@ -52,13 +51,21 @@ class Cart extends Component {
       }
     });
   }
-  placeOrder = () => {
+  checkout = () => {
     console.log(this.props);
-    console.log(this.state);
+    // console.log(this.state);
     if (!this.props.auth.currentAddress) {
       console.log("no address");
     } else {
+      const currentAddress = this.props.addresses.filter(
+        (x) => x.ID == this.props.auth.currentAddress
+      )[0];
       console.log("the address is", this.props.auth.currentAddress);
+      //   debugger;
+      this.props.history.push({
+        pathname: "/checkout",
+        state: { currentAddress },
+      });
     }
   };
   renderList() {
@@ -74,8 +81,8 @@ class Cart extends Component {
             </h5>
           </div>
           <div className="place-order-section">
-            <a className="btn-large" onClick={this.placeOrder}>
-              Place order
+            <a className="btn-large" onClick={this.checkout}>
+              checkout
             </a>
           </div>
         </div>
