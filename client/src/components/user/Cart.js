@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import CartButtons from "./utilities/CartButton";
-
+import { fetchUserAddresses } from "../../actions";
 class Cart extends Component {
   constructor(props) {
     super(props);
@@ -10,9 +10,10 @@ class Cart extends Component {
       grandTotal: 0,
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
     // debugger;
     // this.setState({grandTotal});
+    await this.props.fetchUserAddresses(this.props.auth.ID);
   }
   renderOrderItems() {
     const relativeStyle = {
@@ -56,6 +57,8 @@ class Cart extends Component {
     console.log(this.state);
     if (!this.props.auth.currentAddress) {
       console.log("no address");
+    } else {
+      console.log("the address is", this.props.auth.currentAddress);
     }
   };
   renderList() {
@@ -86,7 +89,7 @@ class Cart extends Component {
 function mapStateToProps(state) {
   console.log(state);
   let items = [];
-  let { order, auth } = state;
+  let { order, auth, addresses } = state;
   if (state.restaurants.length) {
     state.restaurants.map((rest) => {
       items.push(...rest.Items);
@@ -113,6 +116,7 @@ function mapStateToProps(state) {
     items,
     grandTotal,
     auth,
+    addresses,
   };
 }
-export default connect(mapStateToProps)(Cart);
+export default connect(mapStateToProps, { fetchUserAddresses })(Cart);

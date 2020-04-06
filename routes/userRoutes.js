@@ -36,6 +36,7 @@ module.exports = (app) => {
       detailedAddress,
       additionalDirections,
       userID,
+      currentAddress,
     } = req.body;
     const newAddressData = {
       name,
@@ -50,11 +51,23 @@ module.exports = (app) => {
       userID,
     };
     try {
-      const newAddress = await Addresses.create(newAddressData).catch(
-        errHandler
-      );
+      let newAddress = await Addresses.create(newAddressData).catch(errHandler);
+      console.log(currentAddress);
+      if (currentAddress) {
+        const result = await Users.update(
+          { currentAddress: newAddress.ID },
+          { where: { ID: userID } }
+        ).catch(errHandler);
+        console.log("result is.....\n\n\n\n");
+        console.log(result);
+        if (result.length) {
+          // newAddress = { ...newAddress, userUpdated: true };
+          newAddress.dataValues.userUpdated = true;
+        }
+      }
       console.log(newAddress);
-      res.status(200).send(newAddress);
+
+      res.status(200).json(newAddress);
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
@@ -102,7 +115,7 @@ module.exports = (app) => {
   app.delete("/api/user/addresses", async (req, res) => {
     const { addressID } = req.query;
     const result = await Addresses.destroy({ where: { ID: addressID } });
-    res.status(200).send(result);
+    res.status(200).json(result);
   });
 
   app.put("/api/user", async (req, res) => {
