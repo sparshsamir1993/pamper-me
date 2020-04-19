@@ -50,4 +50,15 @@ export const fetchCurrentOrder = (ID, history) => async (dispatch) => {
 export const createPayment = (values, history) => async (dispatch) => {
   console.log(values);
   const res = await axios.post("/api/payments", values);
+  console.log(res);
+  if (res.status === 200) {
+    dispatch({ type: "FETCH_PAYMENT", payload: res.data.payment });
+    const updatedOrder = {
+      ...values.order,
+      grand_total: res.data.payment.amount,
+      is_confirmed: true,
+      addressID: res.data.address.ID,
+    };
+    dispatch({ type: "FETCH_ORDER", payload: updatedOrder });
+  }
 };

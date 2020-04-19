@@ -3,14 +3,14 @@ const OrderItems = require("../models/OrderItems");
 const Restaurants = require("../models/Restaurant");
 const RestaurantItems = require("../models/RestaurantItems");
 
-const errHandler = err => {
+const errHandler = (err) => {
   console.log("\n\n  *****  Error  **** :: " + err);
 };
 
-module.exports = app => {
+module.exports = (app) => {
   app.get("/api/restaurants", async (req, res) => {
     const restaurants = await Restaurants.findAll({
-      include: [{ model: RestaurantItems, as: "Items" }]
+      include: [{ model: RestaurantItems, as: "Items" }],
     }).catch(errHandler);
     res.send(restaurants);
   });
@@ -27,7 +27,7 @@ module.exports = app => {
         const { ID } = user;
         try {
           const data = {
-            userID: ID
+            userID: ID,
           };
           currentOrder = await Order.create(data).catch(errHandler);
           console.log(currentOrder.dataValues);
@@ -35,7 +35,7 @@ module.exports = app => {
           const itemData = {
             quantity: 1,
             itemID: item.ID,
-            orderID
+            orderID,
           };
           orderItem = await OrderItems.create(itemData).catch(errHandler);
         } catch (err) {
@@ -50,7 +50,7 @@ module.exports = app => {
           .catch(errHandler);
         values["order"] = await Order.findOne({
           where: { ID: currentOrder.dataValues.ID },
-          include: [{ model: OrderItems, as: "OrderItems" }]
+          include: [{ model: OrderItems, as: "OrderItems" }],
         }).catch(errHandler);
         values["orderItem"] = orderItem.dataValues;
       }
@@ -61,19 +61,19 @@ module.exports = app => {
       if (orderItems && orderItems.length) {
         // check if order already has some orderItems
         let orderItemPresent = orderItems.filter(
-          orderItem => orderItem.itemID == item.ID
+          (orderItem) => orderItem.itemID == item.ID
         )[0];
         if (orderItemPresent) {
           // check if item in order items
 
           let updatedOItem = await OrderItems.update(
             {
-              quantity: newQuantity
+              quantity: newQuantity,
             },
             {
               where: {
-                ID: orderItemPresent.ID
-              }
+                ID: orderItemPresent.ID,
+              },
             }
           ).catch(errHandler);
 
@@ -82,7 +82,7 @@ module.exports = app => {
           if (updatedOItem.length == 1) {
             let currentOrder = await Order.findOne({
               where: { ID: order.ID },
-              include: [{ model: OrderItems, as: "OrderItems" }]
+              include: [{ model: OrderItems, as: "OrderItems" }],
             }).catch(errHandler);
             console.log(currentOrder);
             values["order"] = currentOrder;
@@ -91,7 +91,7 @@ module.exports = app => {
           let data = {
             orderID: order.ID,
             itemID: item.ID,
-            quantity: 1
+            quantity: 1,
           };
           let orderItem = await OrderItems.create(data).catch(errHandler);
           console.log("new order item is  \n");
@@ -104,7 +104,7 @@ module.exports = app => {
         let data = {
           orderID: order.ID,
           itemID: item.ID,
-          quantity: 1
+          quantity: 1,
         };
         let orderItem = await OrderItems.create(data).catch(errHandler);
         console.log("new order item is  \n");
@@ -129,16 +129,16 @@ module.exports = app => {
         let orderItems = order.OrderItems;
         let currentOrder = await Order.findOne({
           where: { ID: order.ID },
-          include: [{ model: OrderItems, as: "OrderItems" }]
+          include: [{ model: OrderItems, as: "OrderItems" }],
         }).catch(errHandler);
         // currentOrder = await  currentOrder.toJSON();
         if (order.OrderItems && order.OrderItems.length) {
           var orderItemPresent = orderItems.filter(
-            orderItem => orderItem.itemID == item.ID
+            (orderItem) => orderItem.itemID == item.ID
           );
           if (orderItemPresent && orderItemPresent.length) {
             let orderItemIndex = currentOrder.OrderItems.findIndex(
-              x => x.itemID == orderItemPresent[0].itemID
+              (x) => x.itemID == orderItemPresent[0].itemID
             );
             let newQuantity = order.OrderItems[orderItemIndex].quantity - 1;
             // let newTotal = order.total - orderItemPresent[0].item.price;
@@ -146,29 +146,29 @@ module.exports = app => {
             if (newQuantity >= 1) {
               let updatedOItem = await OrderItems.update(
                 {
-                  quantity: newQuantity
+                  quantity: newQuantity,
                 },
                 {
                   where: {
-                    ID: orderItemPresent[0].ID
-                  }
+                    ID: orderItemPresent[0].ID,
+                  },
                 }
               ).catch(errHandler);
               let currentOrder = await Order.findOne({
                 where: { ID: order.ID },
-                include: [{ model: OrderItems, as: "OrderItems" }]
+                include: [{ model: OrderItems, as: "OrderItems" }],
               }).catch(errHandler);
               console.log(currentOrder);
               values["order"] = currentOrder;
             } else {
               let newOrder = await OrderItems.destroy({
                 where: {
-                  ID: orderItemPresent[0].ID
-                }
+                  ID: orderItemPresent[0].ID,
+                },
               });
               let currentOrder = await Order.findOne({
                 where: { ID: order.ID },
-                include: [{ model: OrderItems, as: "OrderItems" }]
+                include: [{ model: OrderItems, as: "OrderItems" }],
               }).catch(errHandler);
               values["order"] = currentOrder;
             }
@@ -186,7 +186,7 @@ module.exports = app => {
   app.get("/api/order", async (req, res) => {
     let currentOrder = await Order.findOne({
       where: { ID: req.query.ID },
-      include: [{ model: OrderItems, as: "OrderItems" }]
+      include: [{ model: OrderItems, as: "OrderItems" }],
     }).catch(errHandler);
     // console.log(currentOrder);
     res.status(200).json(currentOrder);

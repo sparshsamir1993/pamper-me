@@ -7,8 +7,6 @@ class Cart extends Component {
     super(props);
   }
   async componentDidMount() {
-    // debugger;
-    // this.setState({grandTotal});
     if (!this.props.auth.ID) {
       this.props.history.goBack();
     }

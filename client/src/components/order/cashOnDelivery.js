@@ -35,6 +35,7 @@ class CashOnDelivery extends Component {
                 paymentType: CASH_ON_DELIVERY,
                 grandTotal: this.props.grandTotal,
                 order: this.props.order,
+                currentAddress: this.props.currentAddress,
               })
             }
           >
@@ -46,7 +47,7 @@ class CashOnDelivery extends Component {
   }
 }
 function mapStateToProps(state) {
-  console.log(state);
+  // console.log(state);
   return {
     user: state.auth,
   };

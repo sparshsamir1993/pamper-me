@@ -7,6 +7,7 @@ import restaurantItemsReducer from "./restaurantItemsReducer";
 import orderItemsReducer from "./orderItemsReducer";
 import orderReducer from "./orderReducer";
 import addessesReducer from "./addressesReducer";
+import paymentReducer from "./paymentReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
   selectedRestaurant: selectedRestaurantReducer,
   order: orderReducer,
   orderItems: orderItemsReducer,
-  addresses: addessesReducer
+  addresses: addessesReducer,
+  payment: paymentReducer,
 });

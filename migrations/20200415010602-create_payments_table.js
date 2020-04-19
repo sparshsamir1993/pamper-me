@@ -10,7 +10,7 @@ module.exports = {
         autoIncrement: true,
       },
       amount: {
-        type: Sequelize.DECIMAL,
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
       stripeToken: {
@@ -21,12 +21,14 @@ module.exports = {
       },
       paymentSuccessful: {
         type: Sequelize.BOOLEAN,
-        defaulValue: false,
+        defaultValue: false,
       },
       orderID: {
         type: Sequelize.INTEGER(11),
         allowNull: false,
       },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE,
     });
   },
 
