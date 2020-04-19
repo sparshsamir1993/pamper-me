@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: [keys.cookieKey]
+    keys: [keys.cookieKey],
   })
 );
 
@@ -34,6 +34,7 @@ require("./routes/adminRoutes")(app);
 // require("./routes/appRoutes")(app);
 require("./routes/restaurantRoutes")(app);
 require("./routes/userRoutes")(app);
+require("./routes/paymentRoutes")(app);
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT);

@@ -6,14 +6,23 @@ class CreditCard extends React.Component {
     console.log("token is", token);
   };
 
-  // ...
-
   render() {
+    const payButtonWrapper = {
+      width: "100%",
+      paddingTop: "100px",
+      paddingBottom: "100px",
+      marginTop: "5px",
+      display: "flex",
+      justifyContent: "center",
+      backgroundColor: "white",
+    };
     return (
-      <StripeCheckout
-        token={this.onToken}
-        stripeKey="pk_test_mrBxdsOdipIPNYqv2Vg5bFQ9"
-      />
+      <div style={payButtonWrapper}>
+        <StripeCheckout
+          token={this.onToken}
+          stripeKey="pk_test_mrBxdsOdipIPNYqv2Vg5bFQ9"
+        />
+      </div>
     );
   }
 }

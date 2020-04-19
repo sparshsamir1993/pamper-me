@@ -24,7 +24,7 @@ class App extends Component {
     let { order } = window.localStorage.orderSession
       ? JSON.parse(window.localStorage.orderSession)
       : {};
-    console.log(order);
+    console.log(this.props);
     if (order && order.ID && !this.props.order.ID) {
       this.props.fetchCurrentOrder(order.ID);
     }

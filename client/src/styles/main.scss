@@ -48,3 +48,8 @@ select {
 .tabs .tab a {
   color: $primary-color;
 }
+.place-order-btn-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

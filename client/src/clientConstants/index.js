@@ -16,3 +16,8 @@ export const DARK_SIENNA = "#49111c";
 export const ANIT_FLASH_WHITE = "#f2f4f3";
 export const GRULLIO = "#a9927d";
 export const UMBER = "#5e503f";
+
+/******************** PAYMENT CONSTANTS ************************/
+
+export const CASH_ON_DELIVERY = "CASH_ON_DELIVERY";
+export const CREDIT_CASH = "CREDIT_CASH";

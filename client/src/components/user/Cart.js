@@ -64,7 +64,11 @@ class Cart extends Component {
       //   debugger;
       this.props.history.push({
         pathname: "/checkout",
-        state: { currentAddress },
+        state: {
+          currentAddress,
+          grandTotal: this.props.grandTotal,
+          order: this.props.order,
+        },
       });
     }
   };
