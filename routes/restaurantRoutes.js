@@ -2,6 +2,7 @@ const Order = require("../models/Order");
 const OrderItems = require("../models/OrderItems");
 const Restaurants = require("../models/Restaurant");
 const RestaurantItems = require("../models/RestaurantItems");
+const Payments = require("../models/Payments");
 
 const errHandler = (err) => {
   console.log("\n\n  *****  Error  **** :: " + err);
@@ -184,11 +185,21 @@ module.exports = (app) => {
   });
 
   app.get("/api/order", async (req, res) => {
+    let result = {};
     let currentOrder = await Order.findOne({
       where: { ID: req.query.ID },
       include: [{ model: OrderItems, as: "OrderItems" }],
     }).catch(errHandler);
-    // console.log(currentOrder);
-    res.status(200).json(currentOrder);
+    result.order = currentOrder;
+    if (currentOrder.is_confirmed) {
+      const orderPayment = await Payments.findAll({
+        where: {
+          orderID: currentOrder.ID,
+          amount: currentOrder.grand_total,
+        },
+      }).catch(errHandler);
+      result.payment = orderPayment.length >= 1 ? orderPayment[0] : {};
+    }
+    res.status(200).json(result);
   });
 };

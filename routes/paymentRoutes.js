@@ -22,7 +22,6 @@ module.exports = (app) => {
         ID: req.body.order.ID,
       },
     }).catch(errHandler);
-    console.log(orderUpdate);
     const returnVal = {
       orderUpdated: orderUpdate[0] >= 1,
       address: req.body.currentAddress,
@@ -35,5 +34,16 @@ module.exports = (app) => {
       },
     };
     res.status(200).send(returnVal);
+  });
+
+  app.get("/api/payments", async (req, res) => {
+    const { orderID, grand_total } = req.query;
+
+    const orderPayment = await Payments.findAll({
+      where: {
+        orderID,
+        amount: grand_total,
+      },
+    });
   });
 };
