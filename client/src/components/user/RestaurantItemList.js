@@ -12,7 +12,7 @@ const {
   APPETIZERS,
   DESSERT,
   MAIN_COURSE,
-  SIDES
+  SIDES,
 } = require("../../clientConstants");
 const itemTypes = [APPETIZERS, MAIN_COURSE, SIDES, DESSERT];
 
@@ -75,7 +75,7 @@ class RestaurantItemList extends Component {
     super(props);
 
     this.state = {
-      selectedRestaurant: this.props.match.params.restaurantId
+      selectedRestaurant: this.props.match.params.restaurantId,
     };
   }
   componentDidMount() {
@@ -92,7 +92,7 @@ class RestaurantItemList extends Component {
     console.log(itemType);
     const orderItems = this.props.orderItems;
     if (this.props.restaurantItems && this.props.restaurantItems.length > 0) {
-      return this.props.restaurantItems.map(item => {
+      return this.props.restaurantItems.map((item) => {
         if (item.itemType == itemType) {
           return (
             <div className="item" key={item.ID}>
@@ -108,7 +108,7 @@ class RestaurantItemList extends Component {
             </div>
           );
         } else {
-          return <div></div>;
+          return <div key={item.ID}></div>;
         }
       });
     } else {
@@ -135,7 +135,7 @@ function mapStateToProps(state) {
     restaurantItems: state.restaurantItems,
     order: order,
     orderItems: orderItems,
-    user: state.auth
+    user: state.auth,
   };
 }
 export default connect(mapStateToProps, actions)(RestaurantItemList);

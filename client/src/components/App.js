@@ -16,6 +16,7 @@ import RestaurantList from "./user/RestaurantList";
 import RestaurantItemList from "./user/RestaurantItemList";
 import Cart from "./user/Cart";
 import Header from "./Header";
+import TrackOrder from "./user/order/trackOrder";
 import * as actions from "../actions";
 class App extends Component {
   componentDidMount() {
@@ -68,6 +69,7 @@ class App extends Component {
               <Route exact path="/profile" component={UserProfile} />
               <Route exact path="/manageAddress" component={ManageAddress} />
               <Route exact path="/addressNew" component={AddressNew} />
+              <Route exact path="/trackOrder" component={TrackOrder} />
             </div>
           </div>
         </BrowserRouter>

@@ -16,16 +16,11 @@ class Header extends Component {
     let { order } = window.localStorage.orderSession
       ? JSON.parse(window.localStorage.orderSession)
       : {};
-    // console.log(order);
     this.state = {
       order,
       numberOfItems: !_.isEmpty(order) ? order.OrderItems.length : 0,
     };
-    console.log(this.state.numberOfItems);
-  }
-  componentDidMount() {
-    // const $ = require("jquery");
-    console.log(this.props);
+    this._trackingPresent = false;
   }
 
   initProfileDropdown() {
@@ -81,10 +76,8 @@ class Header extends Component {
   }
   checkIfCartPresnt() {
     if (window.localStorage.orderSession) {
-      // debugger;
       const { order } = JSON.parse(window.localStorage.orderSession);
-      if (order) {
-        // console.log("cart called");
+      if (order && !this._trackingPresent) {
         return (
           <li key="cart">
             <Link to="/cart" className="ui label">
@@ -100,6 +93,21 @@ class Header extends Component {
       return "";
     }
   }
+
+  checkIforderTrackingPresent() {
+    if (
+      this.props.order.is_confirmed &&
+      !this.props.payment.paymentSuccessful
+    ) {
+      this._trackingPresent = true;
+      return (
+        <li>
+          <Link to="/trackOrder"> Track your order</Link>
+        </li>
+      );
+    }
+  }
+
   render() {
     const dropdownStyle = {
       position: "absolute",
@@ -124,6 +132,7 @@ class Header extends Component {
                 <a href="/restaurants">Restaurants</a>
               </li>
               {this.checkIfAdmin()}
+              {this.checkIforderTrackingPresent()}
               {this.checkIfCartPresnt()}
               {!this.props.auth && (
                 <li className="">
@@ -166,15 +175,15 @@ class Header extends Component {
   }
 }
 
-function mapStateToProps({ auth, order }) {
+function mapStateToProps({ auth, order, payment }) {
   // debugger;
   let orderStorage = window.localStorage.orderSession
     ? JSON.parse(window.localStorage.orderSession).order
     : {};
-  order = orderStorage;
+  order = !order.ID ? orderStorage : order;
   // debugger;
   // auth = Object.keys(auth).length == 0 ? false: true;
 
-  return { auth, order };
+  return { auth, order, payment };
 }
 export default connect(mapStateToProps)(Header);
