@@ -53,10 +53,23 @@ class ManageAddress extends Component {
         if (this.props.user.currentAddress == address.ID) {
           address = { ...address, defaultAddress: true };
         }
+        const defaultAddressStyle = {
+          position: "absolute",
+          right: "10px",
+          color: "yellow",
+          "text-align": "center",
+          top: "10px",
+        };
         return (
           <div className="col s6" key={idx}>
             <div className="card blue-grey darken-1">
               <div className="card-content white-text" style={addressCardStyle}>
+                {this.props.user.currentAddress == address.ID && (
+                  <span style={defaultAddressStyle}>
+                    <i class="material-icons">home</i>
+                    <div> (Current Address)</div>
+                  </span>
+                )}
                 <span className="card-title">{address.name}</span>
                 <p>{address.detailedAddress}</p>
               </div>
