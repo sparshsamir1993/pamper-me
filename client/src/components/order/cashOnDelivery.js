@@ -20,7 +20,7 @@ class CashOnDelivery extends Component {
     return (
       <div style={codWrapper}>
         <h4>You are about to place an order at,</h4>
-        <h6>{this.props.currentAddress.detailedAddress}</h6>
+        <h6>{this.props.currentAddress?.detailedAddress}</h6>
         <h6>
           The delivery personal will contact you at &nbsp;{" "}
           {this.props.user.email}
@@ -31,12 +31,15 @@ class CashOnDelivery extends Component {
           <a
             className="btn-large"
             onClick={() =>
-              this.props.createPayment({
-                paymentType: CASH_ON_DELIVERY,
-                grandTotal: this.props.grandTotal,
-                order: this.props.order,
-                currentAddress: this.props.currentAddress,
-              })
+              this.props.createPayment(
+                {
+                  paymentType: CASH_ON_DELIVERY,
+                  grandTotal: this.props.grandTotal,
+                  order: this.props.order,
+                  currentAddress: this.props.currentAddress,
+                },
+                this.props.history
+              )
             }
           >
             Place Order

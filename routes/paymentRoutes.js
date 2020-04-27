@@ -10,6 +10,10 @@ module.exports = (app) => {
       paymentType: req.body.paymentType,
       amount: req.body.grandTotal,
       orderID: req.body.order.ID,
+      paymentSuccessful: req.body.paymentSuccessful
+        ? req.body.paymentSuccessful
+        : false,
+      stripeToken: req.body.stripeToken ? req.body.stripeToken.id : "",
     };
     const result = await Payments.create(newPayment).catch(errHandler);
     const orderData = {

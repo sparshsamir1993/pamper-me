@@ -11,6 +11,9 @@ export const createPayment = (values, history) => async (dispatch) => {
       addressID: res.data.address.ID,
     };
     dispatch({ type: "FETCH_ORDER", payload: updatedOrder });
+    history.push({
+      pathname: "/trackOrder",
+    });
   }
 };
 

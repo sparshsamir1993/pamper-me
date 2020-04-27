@@ -95,10 +95,7 @@ class Header extends Component {
   }
 
   checkIforderTrackingPresent() {
-    if (
-      this.props.order.is_confirmed &&
-      !this.props.payment.paymentSuccessful
-    ) {
+    if (this.props.order.is_confirmed) {
       this._trackingPresent = true;
       return (
         <li>

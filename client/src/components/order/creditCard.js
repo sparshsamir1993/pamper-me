@@ -1,9 +1,26 @@
 import React from "react";
 import StripeCheckout from "react-stripe-checkout";
+import { connect } from "react-redux";
+
+import { createPayment } from "../../actions";
+import { CREDIT_CARD } from "../../clientConstants";
 
 class CreditCard extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   onToken = (token) => {
-    console.log("token is", token);
+    this.props.createPayment(
+      {
+        paymentType: CREDIT_CARD,
+        grandTotal: this.props.grandTotal,
+        order: this.props.order,
+        currentAddress: this.props.currentAddress,
+        stripeToken: token,
+        paymentSuccessful: true,
+      },
+      this.props.history
+    );
   };
 
   render() {
@@ -27,4 +44,4 @@ class CreditCard extends React.Component {
   }
 }
 
-export default CreditCard;
+export default connect(null, { createPayment })(CreditCard);

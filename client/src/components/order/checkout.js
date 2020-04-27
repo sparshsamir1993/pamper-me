@@ -8,13 +8,17 @@ class Checkout extends Component {
     super(props);
     console.log(props);
   }
-
+  componentWillMount() {
+    if (!this.props.location?.state?.currentAddress) {
+      //ES 20 baby!!
+      this.props.history.goBack();
+    }
+  }
   componentDidMount() {
     let tabs = document.getElementById("paymentTabs");
     M.Tabs.init(tabs, {});
     const instance = M.Tabs.getInstance(tabs);
     let cc = document.getElementById("creditcard");
-    // instance.select("creditcard");
   }
   render() {
     return (
@@ -33,13 +37,19 @@ class Checkout extends Component {
           </ul>
         </div>
         <div id="creditcard" className="col s12">
-          <CreditCard />
+          <CreditCard
+            currentAddress={this.props.location?.state?.currentAddress}
+            grandTotal={this.props.location?.state?.grandTotal}
+            order={this.props.location?.state?.order}
+            history={this.props.history}
+          />
         </div>
         <div id="cash" className="col s12">
           <CashOnDelivery
-            currentAddress={this.props.location.state.currentAddress}
-            grandTotal={this.props.location.state.grandTotal}
-            order={this.props.location.state.order}
+            currentAddress={this.props.location?.state?.currentAddress}
+            grandTotal={this.props.location?.state?.grandTotal}
+            order={this.props.location?.state?.order}
+            history={this.props.history}
           />
         </div>
       </div>

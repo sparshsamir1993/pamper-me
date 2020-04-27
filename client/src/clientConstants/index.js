@@ -20,4 +20,4 @@ export const UMBER = "#5e503f";
 /******************** PAYMENT CONSTANTS ************************/
 
 export const CASH_ON_DELIVERY = "CASH_ON_DELIVERY";
-export const CREDIT_CASH = "CREDIT_CASH";
+export const CREDIT_CARD = "CREDIT_CARD";
