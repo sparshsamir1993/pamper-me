@@ -8,10 +8,20 @@ import orderItemsReducer from "./orderItemsReducer";
 import orderReducer from "./orderReducer";
 import addessesReducer from "./addressesReducer";
 import paymentReducer from "./paymentReducer";
+import restaurantMenuSectionReducer from "./restaurantMenuSectionReducer";
 
 export default combineReducers({
   auth: authReducer,
-  form: reduxForm,
+  form: reduxForm.plugin({
+    adminRestaurantMenuSectionNew: (state, action) => {
+      switch (action.type) {
+        case "NEW_MENU_SECTION_SAVED":
+          return undefined;
+        default:
+          return state;
+      }
+    },
+  }),
   restaurants: restaurantsReducer,
   restaurantItems: restaurantItemsReducer,
   selectedRestaurant: selectedRestaurantReducer,
@@ -19,4 +29,5 @@ export default combineReducers({
   orderItems: orderItemsReducer,
   addresses: addessesReducer,
   payment: paymentReducer,
+  restaurantMenuSections: restaurantMenuSectionReducer,
 });

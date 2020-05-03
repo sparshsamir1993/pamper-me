@@ -10,7 +10,7 @@ class AdminRestaurantList extends Component {
 
   renderList() {
     if (this.props.restaurants && this.props.restaurants.length > 0) {
-      return this.props.restaurants.reverse().map(restaurant => {
+      return this.props.restaurants.reverse().map((restaurant) => {
         return (
           <div className="card seven wide column" key={restaurant.ID}>
             <div className="content">
@@ -33,14 +33,22 @@ class AdminRestaurantList extends Component {
                 this.props.history.push({
                   pathname: "/admin/restaurants/new",
                   state: {
-                    selectedRestaurant: restaurant
-                  }
+                    selectedRestaurant: restaurant,
+                  },
                 })
               }
             >
               <i className="add icon"></i>
               Edit
             </button>
+            <Link
+              className="ui bottom attached button"
+              to="/admin/restaurants/menuSection/new"
+              onClick={() => this.props.setRestaurant(restaurant)}
+            >
+              <i className="add icon"></i>
+              New Menu Section
+            </Link>
           </div>
         );
       });
@@ -65,7 +73,7 @@ class AdminRestaurantList extends Component {
 function mapStateToProps(state) {
   // console.log(state);
   return {
-    restaurants: state.restaurants
+    restaurants: state.restaurants,
   };
 }
 export default connect(mapStateToProps, { fetchRestaurants, setRestaurant })(

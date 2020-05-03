@@ -18,6 +18,7 @@ import Cart from "./user/Cart";
 import Header from "./Header";
 import TrackOrder from "./user/order/trackOrder";
 import * as actions from "../actions";
+import AdminRestaurantMenuSectionNew from "./admin/restaurantMenuSections/AdminRestaurantMenuSectionNew";
 class App extends Component {
   componentDidMount() {
     this.props.fetchUser();
@@ -70,6 +71,11 @@ class App extends Component {
               <Route exact path="/manageAddress" component={ManageAddress} />
               <Route exact path="/addressNew" component={AddressNew} />
               <Route exact path="/trackOrder" component={TrackOrder} />
+              <Route
+                exact
+                path="/admin/restaurants/menuSection/new"
+                component={AdminRestaurantMenuSectionNew}
+              />
             </div>
           </div>
         </BrowserRouter>

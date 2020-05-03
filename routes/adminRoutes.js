@@ -3,14 +3,15 @@ const RestaurantItems = require("../models/RestaurantItems");
 const Users = require("../models/Users");
 const Orders = require("../models/Order");
 const OrderItems = require("../models/OrderItems");
+const RestaurantMenuSections = require("../models/RestaurantMenuSections");
 
 Restaurants.hasMany(RestaurantItems, {
   as: "Items",
-  foreignKey: "restaurantID"
+  foreignKey: "restaurantID",
 });
 RestaurantItems.belongsTo(Restaurants, {
   as: "Restaurant",
-  foreignKey: "restaurantID"
+  foreignKey: "restaurantID",
 });
 
 Users.hasMany(Orders, { as: "Orders", foreignKey: "userID" });
@@ -22,14 +23,23 @@ OrderItems.belongsTo(Orders, { as: "Order", foreignKey: "orderID" });
 RestaurantItems.hasMany(OrderItems, { as: "Item", foreignKey: "itemID" });
 OrderItems.belongsTo(RestaurantItems, { as: "Item", foreignKey: "itemID" });
 
-const errHandler = err => {
+Restaurants.hasMany(RestaurantMenuSections, {
+  as: "RestaurantMenuSections",
+  foreignKey: "restaurantID",
+});
+RestaurantMenuSections.belongsTo(Restaurants, {
+  as: "Restaurant",
+  foreignKey: "restaurantID",
+});
+
+const errHandler = (err) => {
   console.log("Error :: " + err);
 };
 
-module.exports = app => {
+module.exports = (app) => {
   app.get("/api/admin/restaurants", async (req, res) => {
     const restaurants = await Restaurants.findAll({
-      include: [{ model: RestaurantItems, as: "Items" }]
+      include: [{ model: RestaurantItems, as: "Items" }],
     }).catch(errHandler);
     res.send(restaurants);
   });
@@ -38,7 +48,7 @@ module.exports = app => {
     // console.log(req.query);
     const { selectedRestaurant } = req.query;
     const items = await RestaurantItems.findAll({
-      where: { restaurantID: selectedRestaurant }
+      where: { restaurantID: selectedRestaurant },
     });
     res.send(items);
   });
@@ -51,7 +61,7 @@ module.exports = app => {
       phone,
       address,
       lat,
-      lng
+      lng,
     };
 
     try {
@@ -70,7 +80,7 @@ module.exports = app => {
       restaurantID: selectedRestaurant.ID,
       name: newItem.name,
       price: newItem.price,
-      itemType: newItem.itemType
+      itemType: newItem.itemType,
     };
     try {
       const newItem = await RestaurantItems.create(restaurantItem).catch(
@@ -91,12 +101,12 @@ module.exports = app => {
     let update = {
       name: itemToUpdate.name,
       price: itemToUpdate.price,
-      itemType: itemToUpdate.itemType
+      itemType: itemToUpdate.itemType,
     };
 
     try {
       const item = await RestaurantItems.findOne({
-        where: { ID: itemToUpdate.ID }
+        where: { ID: itemToUpdate.ID },
       }).catch(errHandler);
       const updStat = await item.update(update).catch(errHandler);
       console.log(item.dataValues);
@@ -121,7 +131,7 @@ module.exports = app => {
     console.log(req.body);
     let update = req.body.values;
     let restaurant = await Restaurants.findOne({
-      where: { ID: update.ID }
+      where: { ID: update.ID },
     }).catch(errHandler);
     const updatedRes = await restaurant.update(update).catch(errHandler);
     // console.log(updatedRes.ID);
@@ -130,5 +140,13 @@ module.exports = app => {
     } else {
       res.status(500).send("could not update");
     }
+  });
+
+  app.post("/api/admin/restaurantMenuSection", async (req, res) => {
+    console.log(req.body);
+    let newMenuSection = await RestaurantMenuSections.create(req.body).catch(
+      errHandler
+    );
+    res.status(200).send(newMenuSection);
   });
 };

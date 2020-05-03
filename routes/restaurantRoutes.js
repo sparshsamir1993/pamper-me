@@ -3,6 +3,7 @@ const OrderItems = require("../models/OrderItems");
 const Restaurants = require("../models/Restaurant");
 const RestaurantItems = require("../models/RestaurantItems");
 const Payments = require("../models/Payments");
+const RestaurantMenuSections = require("../models/RestaurantMenuSections");
 
 const errHandler = (err) => {
   console.log("\n\n  *****  Error  **** :: " + err);
@@ -201,5 +202,14 @@ module.exports = (app) => {
       result.payment = orderPayment.length >= 1 ? orderPayment[0] : {};
     }
     res.status(200).json(result);
+  });
+
+  app.get("/api/restaurantMenuSection", async (req, res) => {
+    const list = await RestaurantMenuSections.findAll({
+      where: {
+        restaurantID: req.query.restaurantID,
+      },
+    });
+    res.status(200).send(list);
   });
 };
