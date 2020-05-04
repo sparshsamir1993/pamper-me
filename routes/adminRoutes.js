@@ -149,4 +149,16 @@ module.exports = (app) => {
     );
     res.status(200).send(newMenuSection);
   });
+
+  app.delete("/api/admin/restaurantMenuSection", async (req, res) => {
+    console.log(req.query);
+    const { ID } = req.query;
+    const result = await RestaurantMenuSections.destroy({ where: { ID } });
+    console.log(result);
+    if (result) {
+      res.sendStatus(200).send(result);
+    } else {
+      res.sendStatus(404);
+    }
+  });
 };

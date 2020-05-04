@@ -1,4 +1,5 @@
 import axios from "axios";
+import { MENU_SECTION_LIST, MENU_SECTION_DELETE } from "./actionTypes";
 
 export const fetchUserRestaurants = () => async (dispatch) => {
   const res = await axios.get("/api/restaurants");
@@ -41,7 +42,7 @@ export const createRestaurantMenuSection = (values) => async (dispatch) => {
   console.log(values);
   const res = await axios.post("/api/admin/restaurantMenuSection", values);
   console.log(res);
-  dispatch({ type: "NEW_MENU_SECTION_SAVED" });
+  dispatch({ type: "NEW_MENU_SECTION_SAVED", payload: res.data });
 };
 
 export const getRestaurantMenuSectionList = (values) => async (dispatch) => {
@@ -52,5 +53,17 @@ export const getRestaurantMenuSectionList = (values) => async (dispatch) => {
     },
   });
   console.log(res);
-  dispatch({ type: "MENU_SECTION_LIST", payload: res.data });
+  dispatch({ type: MENU_SECTION_LIST, payload: res.data });
+};
+
+export const deleteMenuSection = (ID) => async (dispatch) => {
+  console.log(ID);
+
+  const res = await axios.delete("/api/admin/restaurantMenuSection", {
+    params: {
+      ID,
+    },
+  });
+  dispatch({ type: MENU_SECTION_DELETE, payload: { deleted: ID } });
+  console.log(res);
 };

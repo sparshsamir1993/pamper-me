@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import {
   createRestaurantMenuSection,
   getRestaurantMenuSectionList,
+  deleteMenuSection,
 } from "../../../actions";
 import AdminRestaurantMenuSectionForm from "./AdminRestaurantMenuSectionForm";
 class AdminRestaurantMenuSectionNew extends Component {
@@ -27,7 +28,26 @@ class AdminRestaurantMenuSectionNew extends Component {
   renderSectionList() {
     if (this.props.restaurantMenuSections.length) {
       return this.props.restaurantMenuSections.map((section) => {
-        return <div key={section.ID}>{section.sectionName}</div>;
+        return (
+          <li className="collection-item" key={section.ID}>
+            <div>
+              {section.sectionName}
+              <div className="secondary-content" style={{ display: "flex" }}>
+                <a className="btn btn-block">
+                  <i className=" material-icons">edit</i>
+                </a>
+                <a className="btn btn-block">
+                  <i
+                    className="material-icons"
+                    onClick={() => this.props.deleteMenuSection(section.ID)}
+                  >
+                    delete
+                  </i>
+                </a>
+              </div>
+            </div>
+          </li>
+        );
       });
     }
   }
@@ -40,7 +60,14 @@ class AdminRestaurantMenuSectionNew extends Component {
               onNewMenuSection={() => this.createMenuSection()}
             />
           </div>
-          <div className="col s6">{this.renderSectionList()}</div>
+          <div className="col s6">
+            <ul className="collection with-header">
+              <li className="collection-header">
+                <h5>Menu Sections for {this.props.selectedRestaurant.name}</h5>
+              </li>
+              {this.renderSectionList()}
+            </ul>
+          </div>
         </div>
       </div>
     );
@@ -58,4 +85,5 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   createRestaurantMenuSection,
   getRestaurantMenuSectionList,
+  deleteMenuSection,
 })(AdminRestaurantMenuSectionNew);
