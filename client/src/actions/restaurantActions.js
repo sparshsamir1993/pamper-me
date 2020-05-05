@@ -3,6 +3,7 @@ import {
   MENU_SECTION_LIST,
   MENU_SECTION_DELETE,
   SET_SELECTED_MENU_SECTION,
+  FETCH_EDITED_MENU_SECTION,
 } from "./actionTypes";
 
 export const fetchUserRestaurants = () => async (dispatch) => {
@@ -78,4 +79,8 @@ export const setSelectedSection = (section) => async (dispatch) => {
 
 export const updateRestaurantMenuSection = (section) => async (dispatch) => {
   console.log(section);
+  const res = await axios.put("/api/admin/restaurantMenuSection", { section });
+  if (res.data.length)
+    dispatch({ type: FETCH_EDITED_MENU_SECTION, payload: section });
+  console.log(res);
 };

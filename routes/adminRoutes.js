@@ -161,4 +161,19 @@ module.exports = (app) => {
       res.sendStatus(404);
     }
   });
+
+  app.put("/api/admin/restaurantMenuSection", async (req, res) => {
+    console.log(req.body.section);
+    const { sectionName, ID } = req.body.section;
+    const result = await RestaurantMenuSections.update(
+      { sectionName, updatedAt: new Date() },
+      {
+        where: {
+          ID,
+        },
+      }
+    );
+
+    res.status(200).send(result);
+  });
 };
