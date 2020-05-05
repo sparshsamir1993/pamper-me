@@ -4,17 +4,22 @@ import { reduxForm, Field } from "redux-form";
 import $ from "jquery";
 import { connect } from "react-redux";
 import AdminRestaurantField from "../restaurants/AdminRestaurantField";
-import { loadInitailItemFormValues } from "../../../actions";
+import {
+  loadInitailItemFormValues,
+  getRestaurantMenuSectionList,
+} from "../../../actions";
 import * as constants from "../../../clientConstants";
 
 class AdminRestaurantItemForm extends Component {
+  componentDidMount() {
+    this.props.getRestaurantMenuSectionList(this.props.selectedRestaurant);
+  }
   render() {
-    const itemTypes = [
-      constants.APPETIZERS,
-      constants.MAIN_COURSE,
-      constants.SIDES,
-      constants.DESSERT
-    ];
+    console.log(this.props);
+
+    const itemTypes = this.props.restaurantMenuSections.map(
+      (section) => section.sectionName
+    );
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.props.onNewItemSubmit)}>
@@ -34,7 +39,7 @@ class AdminRestaurantItemForm extends Component {
           />
           <Field key="itemType" name="itemType" component="select">
             <option></option>
-            {itemTypes.map(type => {
+            {itemTypes.map((type) => {
               return (
                 <option value={type} key={type}>
                   {type}
@@ -50,8 +55,16 @@ class AdminRestaurantItemForm extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  const { restaurantMenuSections, selectedRestaurant } = state;
+  return {
+    restaurantMenuSections,
+    selectedRestaurant,
+  };
+}
 AdminRestaurantItemForm = reduxForm({
-  form: "adminRestaurantItemForm"
+  form: "adminRestaurantItemForm",
 })(AdminRestaurantItemForm);
 
 // AdminRestaurantItemForm = connect(
@@ -59,5 +72,7 @@ AdminRestaurantItemForm = reduxForm({
 //         initialValues: state,
 //     }),{ load: loadInitailItemFormValues}
 // )(AdminRestaurantItemForm);
-
+AdminRestaurantItemForm = connect(mapStateToProps, {
+  getRestaurantMenuSectionList,
+})(AdminRestaurantItemForm);
 export default AdminRestaurantItemForm;
