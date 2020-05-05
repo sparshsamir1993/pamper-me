@@ -15,48 +15,122 @@ module.exports = {
         {
           name: "Chciken on rocks",
           price: "10.99",
+          itemType: "èntres",
           restaurantID: 1,
-          itemType: MAIN_COURSE
         },
         {
           name: "Chicken Shawarma",
           price: "8.50",
+          itemType: "Wraps and Sandwiches",
           restaurantID: 1,
-          itemType: APPETIZERS
-        },
-        {
-          name: "Baklava",
-          price: "6",
-          restaurantID: 1,
-          itemType: DESSERT
         },
         {
           name: "Hummus",
-          price: "4.5",
+          price: "6.49",
+          itemType: "Appetizers and Salads",
           restaurantID: 1,
-          itemType: SIDES
         },
+        {
+          name: "Garden Salad",
+          price: "6.39",
+          itemType: "Appetizers and Salads",
+          restaurantID: 1,
+        },
+        {
+          name: "Ceasar Salad",
+          price: "6.39",
+          itemType: "Appetizers and Salads",
+          restaurantID: 1,
+        },
+        {
+          name: "Fatoush Salad",
+          price: "6.39",
+          itemType: "Appetizers and Salads",
+          restaurantID: 1,
+        },
+        {
+          name: '8" Beef Shawarma',
+          price: "10.49",
+          itemType: "Wraps and Sandwiches",
+          restaurantID: 1,
+        },
+        {
+          name: '8" Philly cheese Chicken in a bun or a wrap',
+          price: "9.39",
+          itemType: "Wraps and Sandwiches",
+          restaurantID: 1,
+        },
+        {
+          name: "Chicken Shawarma Platter",
+          price: "16.99",
+          itemType: "Entrees",
+          restaurantID: 1,
+        },
+        {
+          name: "Half & Half Beef (small)",
+          price: "9.99",
+          itemType: "Entrees",
+          restaurantID: 1,
+        },
+        {
+          name: '8" Falafel Wrap',
+          price: "7.49",
+          itemType: "Vegetarian",
+          restaurantID: 1,
+        },
+        {
+          name: "Falafel on Rocks",
+          price: "9.49",
+          itemType: "Vegetarian",
+          restaurantID: 1,
+        },
+        {
+          name: "Canned Pop",
+          price: "1.49",
+          itemType: "Beverages",
+          restaurantID: 1,
+        },
+        {
+          name: "Bottled Pop",
+          price: "2.99",
+          itemType: "Beverages",
+          restaurantID: 1,
+        },
+        {
+          name: "Crispy Golden French Fries",
+          price: "3.99",
+          itemType: "Sides",
+          restaurantID: 1,
+        },
+        {
+          name: "Rice",
+          price: "2.79",
+          itemType: "Sides",
+          restaurantID: 1,
+        },
+
+        /**********************  restaurant 1 ends  *********************/
         {
           name: "Pizza",
           price: "11",
           restaurantID: 2,
-          itemType: MAIN_COURSE
+          itemType: MAIN_COURSE,
         },
         {
           name: "Hot Dog",
           price: "3.5",
           restaurantID: 2,
-          itemType: APPETIZERS
+          itemType: APPETIZERS,
         },
         {
           name: "Ben & Jerry's chocolate Ice Cream",
           price: "8.99",
           restaurantID: 2,
-          itemType: DESSERT
-        }
+          itemType: DESSERT,
+        },
       ],
       {}
     );
   },
-  down: (queryInterface, Sequelize) => {}
+  down: (queryInterface, Sequelize) => {},
 };

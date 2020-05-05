@@ -14,7 +14,7 @@ const {
   MAIN_COURSE,
   SIDES,
 } = require("../../clientConstants");
-const itemTypes = [APPETIZERS, MAIN_COURSE, SIDES, DESSERT];
+let itemTypes = [];
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -33,7 +33,6 @@ function TabPanel(props) {
 }
 
 function RenderTabPanels(value, componentThis) {
-  console.log("value", value);
   return itemTypes.map((item, idx) => {
     return (
       <TabPanel value={value} index={idx} key={idx}>
@@ -48,7 +47,11 @@ function RenderTabHeads() {
 }
 
 function SimpleTabs(props) {
-  console.log(props);
+  if (props.restaurantMenuSections.length) {
+    itemTypes = props.restaurantMenuSections.map(
+      (section) => section.sectionName
+    );
+  }
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -85,6 +88,9 @@ class RestaurantItemList extends Component {
       console.log(this.props.match.params.restaurantId);
       const values = { selectedRestaurant: this.state.selectedRestaurant };
       this.props.fetchUserRestaurantsItems(values);
+      this.props.getRestaurantMenuSectionList({
+        ID: this.props.match.params.restaurantId,
+      });
     }
   }
 
@@ -130,12 +136,15 @@ function mapStateToProps(state) {
   let orderItems = state.orderItems ? state.orderItems : null;
   orderItems =
     !orderItems.length && order && order.length ? order.orderItems : null;
+
   return {
+    restaurants: state.restaurants,
     selectedRestaurant: state.selectedRestaurant,
     restaurantItems: state.restaurantItems,
     order: order,
     orderItems: orderItems,
     user: state.auth,
+    restaurantMenuSections: state.restaurantMenuSections,
   };
 }
 export default connect(mapStateToProps, actions)(RestaurantItemList);
