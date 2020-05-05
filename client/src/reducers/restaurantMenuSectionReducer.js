@@ -2,6 +2,7 @@ import {
   MENU_SECTION_LIST,
   NEW_MENU_SECTION_SAVED,
   MENU_SECTION_DELETE,
+  GET_MENU_SECTION,
 } from "../actions/actionTypes";
 
 export default function (state = [], action) {
@@ -16,6 +17,8 @@ export default function (state = [], action) {
         return state.filter((section) => section.ID !== action.payload.deleted);
       }
       return state;
+    case GET_MENU_SECTION:
+      console.log(action);
     default:
       return state;
   }

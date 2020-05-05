@@ -4,11 +4,16 @@ import {
   createRestaurantMenuSection,
   getRestaurantMenuSectionList,
   deleteMenuSection,
+  setSelectedSection,
 } from "../../../actions";
 import AdminRestaurantMenuSectionForm from "./AdminRestaurantMenuSectionForm";
 class AdminRestaurantMenuSectionNew extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isEdit: false,
+      selectedSection: undefined,
+    };
   }
   componentDidMount() {
     if (!this.props.selectedRestaurant?.ID) {
@@ -25,6 +30,12 @@ class AdminRestaurantMenuSectionNew extends Component {
     this.props.createRestaurantMenuSection(sectionData);
   }
 
+  editMenuSection(section) {
+    this.setState({ selectedSection: section });
+    this.setState({ isEdit: true });
+    this.props.setSelectedSection(section);
+  }
+
   renderSectionList() {
     if (this.props.restaurantMenuSections.length) {
       return this.props.restaurantMenuSections.map((section) => {
@@ -33,16 +44,17 @@ class AdminRestaurantMenuSectionNew extends Component {
             <div>
               {section.sectionName}
               <div className="secondary-content" style={{ display: "flex" }}>
-                <a className="btn btn-block">
+                <a
+                  className="btn btn-block"
+                  onClick={() => this.editMenuSection(section)}
+                >
                   <i className=" material-icons">edit</i>
                 </a>
-                <a className="btn btn-block">
-                  <i
-                    className="material-icons"
-                    onClick={() => this.props.deleteMenuSection(section.ID)}
-                  >
-                    delete
-                  </i>
+                <a
+                  className="btn btn-block"
+                  onClick={() => this.props.deleteMenuSection(section.ID)}
+                >
+                  <i className="material-icons">delete</i>
                 </a>
               </div>
             </div>
@@ -56,9 +68,17 @@ class AdminRestaurantMenuSectionNew extends Component {
       <div>
         <div className="row">
           <div className="col s6">
-            <AdminRestaurantMenuSectionForm
-              onNewMenuSection={() => this.createMenuSection()}
-            />
+            {this.state.isEdit && (
+              <AdminRestaurantMenuSectionForm
+                initialValues={this.state.selectedSection}
+                onNewMenuSection={() => this.updateMenuSection()}
+              />
+            )}
+            {!this.state.isEdit && (
+              <AdminRestaurantMenuSectionForm
+                onNewMenuSection={() => this.createMenuSection()}
+              />
+            )}
           </div>
           <div className="col s6">
             <ul className="collection with-header">
@@ -86,4 +106,5 @@ export default connect(mapStateToProps, {
   createRestaurantMenuSection,
   getRestaurantMenuSectionList,
   deleteMenuSection,
+  setSelectedSection,
 })(AdminRestaurantMenuSectionNew);

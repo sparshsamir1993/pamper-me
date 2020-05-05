@@ -9,6 +9,7 @@ import orderReducer from "./orderReducer";
 import addessesReducer from "./addressesReducer";
 import paymentReducer from "./paymentReducer";
 import restaurantMenuSectionReducer from "./restaurantMenuSectionReducer";
+import selectedSectionReducer from "./selectedSectionReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -30,4 +31,5 @@ export default combineReducers({
   addresses: addessesReducer,
   payment: paymentReducer,
   restaurantMenuSections: restaurantMenuSectionReducer,
+  selectedSection: selectedSectionReducer,
 });

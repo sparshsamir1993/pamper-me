@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
+import { connect } from "react-redux";
 class AdminRestaurantMenuSectionForm extends Component {
   constructor(props) {
     super(props);
@@ -29,6 +30,18 @@ class AdminRestaurantMenuSectionForm extends Component {
   }
 }
 
-export default reduxForm({ form: "adminRestaurantMenuSectionNew" })(
+function mapStateToProps(state) {
+  return {
+    initialValues: state.selectedSection,
+    enableReinitialize: true,
+  };
+}
+
+AdminRestaurantMenuSectionForm = reduxForm({
+  form: "adminRestaurantMenuSectionNew",
+})(AdminRestaurantMenuSectionForm);
+
+AdminRestaurantMenuSectionForm = connect(mapStateToProps)(
   AdminRestaurantMenuSectionForm
 );
+export default AdminRestaurantMenuSectionForm;
