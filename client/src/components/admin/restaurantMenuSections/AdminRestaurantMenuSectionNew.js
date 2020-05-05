@@ -5,6 +5,7 @@ import {
   getRestaurantMenuSectionList,
   deleteMenuSection,
   setSelectedSection,
+  updateRestaurantMenuSection,
 } from "../../../actions";
 import AdminRestaurantMenuSectionForm from "./AdminRestaurantMenuSectionForm";
 class AdminRestaurantMenuSectionNew extends Component {
@@ -29,9 +30,11 @@ class AdminRestaurantMenuSectionNew extends Component {
     };
     this.props.createRestaurantMenuSection(sectionData);
   }
-
+  async updateMenuSection() {
+    console.log(this.props.newMenuSectionForm);
+    this.props.updateRestaurantMenuSection(this.props.newMenuSectionForm);
+  }
   editMenuSection(section) {
-    this.setState({ selectedSection: section });
     this.setState({ isEdit: true });
     this.props.setSelectedSection(section);
   }
@@ -69,10 +72,19 @@ class AdminRestaurantMenuSectionNew extends Component {
         <div className="row">
           <div className="col s6">
             {this.state.isEdit && (
-              <AdminRestaurantMenuSectionForm
-                initialValues={this.state.selectedSection}
-                onNewMenuSection={() => this.updateMenuSection()}
-              />
+              <div>
+                <button
+                  className="btn btn-block"
+                  onClick={() => this.setState({ isEdit: false })}
+                >
+                  Create New Instead
+                </button>
+                <br></br>
+                <AdminRestaurantMenuSectionForm
+                  isEdit={this.state.isEdit}
+                  onNewMenuSection={() => this.updateMenuSection()}
+                />
+              </div>
             )}
             {!this.state.isEdit && (
               <AdminRestaurantMenuSectionForm
@@ -107,4 +119,5 @@ export default connect(mapStateToProps, {
   getRestaurantMenuSectionList,
   deleteMenuSection,
   setSelectedSection,
+  updateRestaurantMenuSection,
 })(AdminRestaurantMenuSectionNew);

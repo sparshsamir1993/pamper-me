@@ -75,3 +75,7 @@ export const deleteMenuSection = (ID) => async (dispatch) => {
 export const setSelectedSection = (section) => async (dispatch) => {
   dispatch({ type: SET_SELECTED_MENU_SECTION, payload: section });
 };
+
+export const updateRestaurantMenuSection = (section) => async (dispatch) => {
+  console.log(section);
+};

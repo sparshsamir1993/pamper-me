@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchRestaurants, setRestaurant } from "../../../actions";
+import {
+  fetchRestaurants,
+  setRestaurant,
+  setSelectedSection,
+} from "../../../actions";
 import { Link } from "react-router-dom";
 
 class AdminRestaurantList extends Component {
   componentDidMount() {
     this.props.fetchRestaurants();
+    this.props.setSelectedSection({});
   }
 
   renderList() {
@@ -76,6 +81,8 @@ function mapStateToProps(state) {
     restaurants: state.restaurants,
   };
 }
-export default connect(mapStateToProps, { fetchRestaurants, setRestaurant })(
-  AdminRestaurantList
-);
+export default connect(mapStateToProps, {
+  fetchRestaurants,
+  setRestaurant,
+  setSelectedSection,
+})(AdminRestaurantList);
