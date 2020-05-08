@@ -29,6 +29,16 @@ require("./routes/adminRoutes")(app);
 require("./routes/restaurantRoutes")(app);
 require("./routes/userRoutes")(app);
 require("./routes/paymentRoutes")(app);
+if (process.env.NODE_ENV === "production") {
+  //to serve main.js & main.css
+  app.use(express.static("client/build"));
 
+  //this code will be executed only if above all app.use() fails.
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+} else {
+}
 const PORT = process.env.PORT || 5050;
 app.listen(PORT);
