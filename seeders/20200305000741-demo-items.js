@@ -1,7 +1,5 @@
 "use strict";
 
-import { APPETIZERS, MAIN_COURSE, SIDES, DESSERT } from "../gConstants";
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
     /*
@@ -107,26 +105,6 @@ module.exports = {
           price: "2.79",
           itemType: "Sides",
           restaurantID: 1,
-        },
-
-        /**********************  restaurant 1 ends  *********************/
-        {
-          name: "Pizza",
-          price: "11",
-          restaurantID: 2,
-          itemType: MAIN_COURSE,
-        },
-        {
-          name: "Hot Dog",
-          price: "3.5",
-          restaurantID: 2,
-          itemType: APPETIZERS,
-        },
-        {
-          name: "Ben & Jerry's chocolate Ice Cream",
-          price: "8.99",
-          restaurantID: 2,
-          itemType: DESSERT,
         },
       ],
       {}
