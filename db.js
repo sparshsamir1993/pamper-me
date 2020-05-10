@@ -1,13 +1,14 @@
 const Sequelize = require("sequelize");
-const config = require("./config/config.json");
+const config = require("./config/config.js");
 let sequelize;
-if (process.env.NODE_ENV === "development") {
+let env = process.env.NODE_ENV || "development";
+if (env === "development") {
   sequelize = new Sequelize("pamperTest", "root", "password", {
     host: "localhost",
     dialect: "mysql",
     operatorsAliases: false,
   });
-} else if (process.env.NODE_ENV === "production") {
+} else if (env === "production") {
   sequelize = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USERNAME,
